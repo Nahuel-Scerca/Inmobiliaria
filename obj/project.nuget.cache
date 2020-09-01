@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BYQ1gkP4zTdd6hcWPrJryjRJEedbGT9yAR2V2un+X0AJ2msy5MWo1mIpcqt03WTRxUHVI27j1C0q1WL/asN+MA==",
+  "dgSpecHash": "WuX4JbyGPscArasj10w9PXv7oa/0TQhZ0OynBfE9kYi+5GpX1Pho8vxQ7eo3aGEI3aGty+PrgEk7D/sSofHXDg==",
   "success": true,
-  "projectFilePath": "D:\\Proyectos VS\\WebApplicationPrueba\\WebApplicationPrueba\\WebApplicationPrueba.csproj",
+  "projectFilePath": "C:\\Users\\Nahuel\\Documents\\GitHub\\Inmobiliaria\\WebApplicationPrueba.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nahuel\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Nahuel\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",

@@ -11,8 +11,12 @@ namespace WebApplicationPrueba.Models
 {
     public class RepositorioPropietario
     {
-        private readonly string connectionString= @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BDinmobiliaria;Integrated Security=True;";
+        private readonly string connectionString;
 
+        public RepositorioPropietario(IConfiguration configuration)
+        {
+			connectionString = configuration["ConnectionStrings:DefaultConnection"];
+        }
 
 		public int Alta(Propietario p)
 		{

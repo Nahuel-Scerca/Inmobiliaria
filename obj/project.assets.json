@@ -6491,11 +6491,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Proyectos VS\\WebApplicationPrueba\\WebApplicationPrueba\\WebApplicationPrueba.csproj",
+      "projectUniqueName": "C:\\Users\\Nahuel\\Documents\\GitHub\\Inmobiliaria\\WebApplicationPrueba.csproj",
       "projectName": "WebApplicationPrueba",
-      "projectPath": "D:\\Proyectos VS\\WebApplicationPrueba\\WebApplicationPrueba\\WebApplicationPrueba.csproj",
+      "projectPath": "C:\\Users\\Nahuel\\Documents\\GitHub\\Inmobiliaria\\WebApplicationPrueba.csproj",
       "packagesPath": "C:\\Users\\Nahuel\\.nuget\\packages\\",
-      "outputPath": "D:\\Proyectos VS\\WebApplicationPrueba\\WebApplicationPrueba\\obj\\",
+      "outputPath": "C:\\Users\\Nahuel\\Documents\\GitHub\\Inmobiliaria\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Nahuel\\AppData\\Roaming\\NuGet\\NuGet.Config",

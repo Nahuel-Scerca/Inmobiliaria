@@ -16,9 +16,9 @@ namespace Inmobiliaria_.Net_Core.Controllers
     {
         private readonly RepositorioPropietario repositorio;
 
-        public PropietariosController()
+        public PropietariosController(IConfiguration configuration)
         {
-            repositorio = new RepositorioPropietario();
+            repositorio = new RepositorioPropietario(configuration);
         }
 
         // GET: Propietario

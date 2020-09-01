@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using WebApplicationPrueba.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Configuration;
 
 namespace WebApplicationPrueba.Controllers
 {
@@ -13,9 +13,9 @@ namespace WebApplicationPrueba.Controllers
     {
         private readonly RepositorioInquilino repositorio;
 
-        public InquilinoController()
+        public InquilinoController(IConfiguration configuration)
         {
-            repositorio = new RepositorioInquilino();
+            repositorio = new RepositorioInquilino(configuration);
         }
 
         // GET: Inquilino

@@ -10,8 +10,12 @@ namespace WebApplicationPrueba.Models
 {
     public class RepositorioInquilino
     {
-		private readonly string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BDinmobiliaria;Integrated Security=True;";
+		private readonly string connectionString;
 
+        public RepositorioInquilino(IConfiguration configuration)
+        {
+			connectionString = configuration["ConnectionStrings:DefaultConnection"];
+        }
 
 		public int Alta(Inquilino e)
 		{
@@ -19,7 +23,8 @@ namespace WebApplicationPrueba.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"INSERT INTO Inquilinos (Nombre, Apellido, Dni, Telefono, Email) " +
-					$"VALUES (@nombre, @apellido, @dni, @telefono, @email)";
+					$"VALUES (@nombre, @apellido, @dni, @telefono, @email);" +
+					"SELECT SCOPE_IDENTITY();";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -28,10 +33,11 @@ namespace WebApplicationPrueba.Models
 					command.Parameters.AddWithValue("@dni", e.Dni);
 					command.Parameters.AddWithValue("@telefono", e.Telefono);
 					command.Parameters.AddWithValue("@email", e.Email);
+
 					connection.Open();
-					res = command.ExecuteNonQuery();
-					command.CommandText = "SELECT SCOPE_IDENTITY()";
-					e.Id = (int)command.ExecuteScalar();
+
+					res = Convert.ToInt32(command.ExecuteScalar());
+					e.Id = res;
 					connection.Close();
 				}
 			}
