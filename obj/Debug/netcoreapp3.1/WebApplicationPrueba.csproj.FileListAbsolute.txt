@@ -242,3 +242,4 @@ C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\staticweba
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.dll
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.pdb
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.genruntimeconfig.cache
+C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Index.cshtml.g.cs
