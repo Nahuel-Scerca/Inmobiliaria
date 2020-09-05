@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WebApplicationPrueba.Models.Contrato>
+
+@{
+    ViewData["Title"] = "Contratos";
+}
+
+<h1>Contratos</h1>
+
+<p>
+    <a asp-action="Create">Crear Contrato</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDesde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaHasta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InquilinoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InmuebleId)
+            </th>
+            <th>
+                Propietario
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDesde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaHasta)
+            </td>
+            <td>
+                @(item.Inquilino.Nombre + " "+ item.Inquilino.Apellido)
+            </td>
+            <td>
+                @(item.Inmueble.Direccion)
+            </td>
+            <td>
+                @(item.Inmueble.Duenio.Nombre + " "+ item.Inmueble.Duenio.Apellido)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Borrar", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

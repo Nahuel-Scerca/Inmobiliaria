@@ -243,3 +243,7 @@ C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplica
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.pdb
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.genruntimeconfig.cache
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Index.cshtml.g.cs
+C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Create.cshtml.g.cs
+C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Edit.cshtml.g.cs
+C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Contrato\Index.cshtml.g.cs
+C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Contrato\Details.cshtml.g.cs
