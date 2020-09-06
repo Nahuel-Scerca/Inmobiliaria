@@ -95,12 +95,7 @@ namespace WebApplicationPrueba.Models
 
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{	
-				//sql de prueba
-				string sql = "SELECT c.Id, FechaDesde, FechaHasta, InquilinoId, InmuebleId," +
-					" i.Nombre, i.Apellido" + "inm.Direccion, inm.PropietarioId" +
-					" FROM Contratos c INNER JOIN Inquilino i ON i.Id = c.Id"+
-					"AND Contratos c INNER JOIN Inmueble inm ON inm.Id = c.Id";
-
+				
 				//sql funcional
 				string consultasql = "SELECT c.Id, FechaDesde, FechaHasta, InquilinoId, InmuebleId,"+
 					" i.Nombre AS InquilinoNombre,i.Apellido AS InquilinoApellido," +

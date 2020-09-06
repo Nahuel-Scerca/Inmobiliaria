@@ -32,6 +32,7 @@ namespace Inmobiliaria_.Net_Core.Controllers
                 return View(lista);
             }
             catch(Exception ex){
+
                 throw;
             }
         }
