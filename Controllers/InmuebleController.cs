@@ -108,12 +108,19 @@ namespace WebApplicationPrueba.Controllers
         // GET: Inmueble/Eliminar/5
         public ActionResult Eliminar(int id)
         {
-            var entidad = repositorio.ObtenerPorId(id);
-            if (TempData.ContainsKey("Mensaje"))
-                ViewBag.Mensaje = TempData["Mensaje"];
-            if (TempData.ContainsKey("Error"))
-                ViewBag.Error = TempData["Error"];
-            return View(entidad);
+
+            try
+            {
+                repositorio.Baja(id);
+                TempData["Mensaje"] = "Eliminación realizada correctamente";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Inmueble/Eliminar/5

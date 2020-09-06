@@ -14,12 +14,14 @@ namespace WebApplicationPrueba.Controllers
         private readonly RepositorioContrato repositorio;
         private readonly RepositorioInmueble repositorioInmueble;
         private readonly RepositorioPropietario repoPropietario;
+        private readonly RepositorioInquilino repoInquilinos;
 
         public ContratoController(IConfiguration configuration)
         {
             this.repositorio = new RepositorioContrato(configuration);
             this.repoPropietario = new RepositorioPropietario(configuration);
             this.repositorioInmueble = new RepositorioInmueble(configuration);
+            this.repoInquilinos = new RepositorioInquilino(configuration);
         }
 
 
@@ -45,63 +47,107 @@ namespace WebApplicationPrueba.Controllers
         // GET: ContratoController/Create
         public ActionResult Create()
         {
+            ViewBag.Inquilinos = repoInquilinos.ObtenerTodos();
+            ViewBag.Inmuebles = repositorioInmueble.ObtenerTodos();
             return View();
         }
 
         // POST: ContratoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Contrato contrato)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    repositorio.Alta(contrato);
+                    TempData["Id"] = contrato.Id;
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Inquilinos = repoInquilinos.ObtenerTodos();
+                    ViewBag.Inmuebles = repositorioInmueble.ObtenerTodos();
+                    return View(contrato);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(contrato);
             }
         }
 
         // GET: ContratoController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var entidad = repositorio.ObtenerPorId(id);
+            ViewBag.Inquilinos = repoInquilinos.ObtenerTodos();
+            ViewBag.Inmuebles = repositorioInmueble.ObtenerTodos();
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            if (TempData.ContainsKey("Error"))
+                ViewBag.Error = TempData["Error"];
+            return View(entidad);
         }
 
         // POST: ContratoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Contrato entidad)
         {
             try
             {
+                entidad.Id = id;
+                repositorio.Modificacion(entidad);
+                TempData["Mensaje"] = "Datos guardados correctamente";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Inquilinos = repoInquilinos.ObtenerTodos();
+                ViewBag.Inmuebles = repositorioInmueble.ObtenerTodos();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(entidad);
             }
         }
 
         // GET: ContratoController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                repositorio.Baja(id);
+                TempData["Mensaje"] = "Eliminación realizada correctamente";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: ContratoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Contrato entidad)
         {
             try
             {
+                repositorio.Baja(id);
+                TempData["Mensaje"] = "Eliminación realizada correctamente";
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(entidad);
             }
         }
     }
