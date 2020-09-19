@@ -99,8 +99,8 @@ namespace WebApplicationPrueba.Models
 				string consultasql = "SELECT c.Id, FechaDesde, FechaHasta, InquilinoId, InmuebleId," +
 					" i.Nombre AS InquilinoNombre,i.Apellido AS InquilinoApellido," +
 					"inm.Direccion, inm.PropietarioId,p.Nombre AS PropietarioNombre ,"+
-					 "p.Apellido AS PropietarioApellido" +
-					 "pa.id AS PagoId,pa.fecha AS fechaPago" +
+					 "p.Apellido AS PropietarioApellido ," +
+					 "pa.id AS PagoId,pa.fecha AS fechaPago ," +
 					 "pa.monto AS montoPago,pa.contratoId" +
 					 " FROM Contratos c " +
 					 " INNER JOIN Inquilinos i ON i.Id = c.InquilinoId" +
@@ -118,9 +118,9 @@ namespace WebApplicationPrueba.Models
 					{
 						Pago pago = new Pago
 						{
-							Id = reader.GetInt32(12),
-							Fecha = reader.GetDateTime(13),
-							Monto = reader.GetSqlMoney(14),
+							Id = reader.GetInt32(11),
+							Fecha = reader.GetDateTime(12),
+							Monto = reader.GetSqlMoney(13),
 							ContratoId = reader.GetInt32(0),
 							
 							Contrato= new Contrato 
