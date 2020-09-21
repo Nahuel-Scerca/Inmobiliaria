@@ -188,7 +188,7 @@ namespace WebApplicationPrueba.Models
 					var reader = command.ExecuteReader();
 					if (reader.Read())
 					{
-						Pago = new Pago
+						contrato = new Contrato
 						{
 							Id = reader.GetInt32(0),
 							FechaDesde = reader.GetDateTime(1),
@@ -221,7 +221,7 @@ namespace WebApplicationPrueba.Models
 					connection.Close();
 				}
 			}
-			return Pago;
+			return contrato;
 		}
 
 	}
