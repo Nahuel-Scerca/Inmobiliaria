@@ -14,11 +14,13 @@ namespace Inmobiliaria_.Net_Core.Controllers
 {
     public class PropietariosController : Controller
     {
-        private readonly RepositorioPropietario repositorio;
+        private readonly IRepositorioPropietario repositorio;
+        private readonly IConfiguration config;
 
-        public PropietariosController(IConfiguration configuration)
+        public PropietariosController(IConfiguration configuration , IRepositorioPropietario repositorio)
         {
-            repositorio = new RepositorioPropietario(configuration);
+            this.repositorio = repositorio;
+            this.config = configuration;
         }
 
         // GET: Propietario

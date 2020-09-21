@@ -213,8 +213,6 @@ C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\runtimes\w
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.csprojAssemblyReference.cache
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.AssemblyInfoInputs.cache
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.AssemblyInfo.cs
-C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.csproj.CoreCompileInputs.cache
-C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.RazorAssemblyInfo.cache
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.RazorAssemblyInfo.cs
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.TagHelpers.input.cache

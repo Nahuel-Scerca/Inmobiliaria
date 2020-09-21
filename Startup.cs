@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using WebApplicationPrueba.Models;
+using Inmobiliaria_.Net_Core.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebApplicationPrueba.Models;
 
 namespace WebApplicationPrueba
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -35,7 +38,7 @@ namespace WebApplicationPrueba
                     options.LogoutPath = "/Usuarios/Logout";
                     options.AccessDeniedPath = "/Home/Restringido";
                 });
-                
+
             services.AddAuthorization(options =>
             {
                 //options.AddPolicy("Empleado", policy => policy.RequireClaim(ClaimTypes.Role, "Administrador", "Empleado"));
@@ -44,7 +47,8 @@ namespace WebApplicationPrueba
             /*
             Transient objects are always different; a new instance is provided to every controller and every service.
             Scoped objects are the same within a request, but different across different requests.
-            Singleton objects are the same for every object and every request.
+            Singleton objects are the same for every object and every request. 
+            */
             
             services.AddMvc();
             services.AddTransient<IRepositorio<Propietario>, RepositorioPropietario>();
@@ -55,7 +59,7 @@ namespace WebApplicationPrueba
             services.AddDbContext<DataContext>(
                 options => options.UseSqlServer(
                     configuration["ConnectionStrings:DefaultConnection"]));
-            */
+            
         }
 
 
