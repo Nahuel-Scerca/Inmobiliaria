@@ -9,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace WebApplicationPrueba.Models
 {
-    public class RepositorioPropietario
+    public class RepositorioPropietario : RepositorioBase , IRepositorioPropietario
     {
-        private readonly string connectionString;
-
-        public RepositorioPropietario(IConfiguration configuration)
+        public RepositorioPropietario(IConfiguration configuration): base(configuration)
         {
-			connectionString = configuration["ConnectionStrings:DefaultConnection"];
+			
         }
 
 		public int Alta(Propietario p)

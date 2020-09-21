@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Inmobiliaria_.Net_Core.Models
+namespace WebApplicationPrueba.Models
 {
 	public class RepositorioUsuario : RepositorioBase, IRepositorioUsuario
 	{

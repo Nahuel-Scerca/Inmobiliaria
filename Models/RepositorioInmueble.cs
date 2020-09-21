@@ -8,13 +8,10 @@ using System.Threading.Tasks;
 
 namespace WebApplicationPrueba.Models
 {
-	public class RepositorioInmueble
+	public class RepositorioInmueble : RepositorioBase, IRepositorioInmueble
 	{
-        private readonly string connectionString;
-
-        public RepositorioInmueble(IConfiguration configuration)
+		public RepositorioInmueble(IConfiguration configuration) : base(configuration)
 		{
-            connectionString = configuration["ConnectionStrings:DefaultConnection"];
 
 		}
 

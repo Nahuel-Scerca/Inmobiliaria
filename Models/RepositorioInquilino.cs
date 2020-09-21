@@ -8,14 +8,12 @@ using System.Threading.Tasks;
 
 namespace WebApplicationPrueba.Models
 {
-    public class RepositorioInquilino
-    {
-		private readonly string connectionString;
+    public class RepositorioInquilino : RepositorioBase, IRepositorioInquilino
+	{
+		public RepositorioInquilino(IConfiguration configuration) : base(configuration)
+		{
 
-        public RepositorioInquilino(IConfiguration configuration)
-        {
-			connectionString = configuration["ConnectionStrings:DefaultConnection"];
-        }
+		}
 
 		public int Alta(Inquilino e)
 		{

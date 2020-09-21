@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Inmobiliaria_.Net_Core.Models
+namespace WebApplicationPrueba.Models
 {
 	public enum enRoles
 	{

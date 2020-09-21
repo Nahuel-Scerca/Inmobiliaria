@@ -8,15 +8,12 @@ using System.Threading.Tasks;
 
 namespace WebApplicationPrueba.Models
 {
-    public class RepositorioPago
+    public class RepositorioPago : RepositorioBase, IRepositorioPago
     {
 
-		private readonly string connectionString;
-
-		public RepositorioPago(IConfiguration configuration)
+		public RepositorioPago(IConfiguration configuration) : base(configuration)
 		{
-			connectionString = configuration["ConnectionStrings:DefaultConnection"];
-
+			
 		}
 
 
@@ -168,7 +165,7 @@ namespace WebApplicationPrueba.Models
 
 
 
-		/*public Contrato ObtenerPorId(int id)
+		public Pago ObtenerPorId(int id)
 		{
 			Contrato contrato = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
@@ -225,7 +222,7 @@ namespace WebApplicationPrueba.Models
 				}
 			}
 			return contrato;
-		}*/
+		}
 
 	}
 }
