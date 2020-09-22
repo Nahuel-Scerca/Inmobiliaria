@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Inmobiliaria_.Net_Core.Models;
+using WebApplicationPrueba.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebApplicationPrueba.Models;
 
 namespace WebApplicationPrueba
 {
@@ -51,11 +50,12 @@ namespace WebApplicationPrueba
             */
             
             services.AddMvc();
-            services.AddTransient<IRepositorio<Propietario>, RepositorioPropietario>();
             services.AddTransient<IRepositorioPropietario, RepositorioPropietario>();
-            services.AddTransient<IRepositorio<Inquilino>, RepositorioInquilino>();
+            services.AddTransient<IRepositorioInquilino, RepositorioInquilino>();
             services.AddTransient<IRepositorioInmueble, RepositorioInmueble>();
             services.AddTransient<IRepositorioUsuario, RepositorioUsuario>();
+            services.AddTransient<IRepositorioContrato, RepositorioContrato>();
+            services.AddTransient<IRepositorioPago, RepositorioPago>();
             services.AddDbContext<DataContext>(
                 options => options.UseSqlServer(
                     configuration["ConnectionStrings:DefaultConnection"]));
@@ -67,17 +67,22 @@ namespace WebApplicationPrueba
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
-            app.UseHttpsRedirection();
+
+            // Uso de archivos estáticos (*.html, *.css, *.js, etc.)
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            // Permitir cookies
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.None,
+            });
+            // Habilitar autenticación
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("login", "login/{**accion}", new { controller = "Usuarios", action = "Login" });
                 endpoints.MapControllerRoute(name: "default",pattern: "{controller=Home}/{action=Index}/{id?}");
                 //endpoints.MapControllerRoute(name: "ruta", pattern: "{controller=Home}/{action=Index}/{id?}");
             });

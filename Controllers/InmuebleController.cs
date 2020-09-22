@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,16 +12,19 @@ namespace WebApplicationPrueba.Controllers
 {
     public class InmuebleController : Controller
     {
-        private readonly RepositorioInmueble repositorio;
-        private readonly RepositorioPropietario repoPropietario;
+        private readonly IConfiguration configuration;
+        private readonly IRepositorioInmueble repositorio;
+        private readonly IRepositorioPropietario repoPropietario;
 
-        public InmuebleController(IConfiguration configuration)
+        public InmuebleController(IConfiguration configuration, IRepositorioInmueble repositorio, IRepositorioPropietario repoPropietario)
         {
-            this.repositorio = new RepositorioInmueble(configuration);
-            this.repoPropietario = new RepositorioPropietario(configuration);
+            this.configuration = configuration;
+            this.repositorio = repositorio;
+            this.repoPropietario = repoPropietario;
         }
 
         // GET: Inmueble
+        [Authorize]
         public ActionResult Index()
         {
             var lista = repositorio.ObtenerTodos();
@@ -32,6 +36,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inmueble/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             var entidad = repositorio.ObtenerPorId(id);
@@ -39,6 +44,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inmueble/Create
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
             ViewBag.Propietarios = repoPropietario.ObtenerTodos();
@@ -46,6 +52,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: Inmueble/Create
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Inmueble entidad)
@@ -73,6 +80,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inmueble/Edit/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
             var entidad = repositorio.ObtenerPorId(id);
@@ -85,6 +93,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: Inmueble/Edit/5
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Inmueble entidad)
@@ -106,6 +115,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inmueble/Eliminar/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Eliminar(int id)
         {
 
@@ -124,6 +134,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: Inmueble/Eliminar/5
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Eliminar(int id, Inmueble entidad)

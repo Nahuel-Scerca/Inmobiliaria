@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace WebApplicationPrueba.Models
 {
-    public class RepositorioPago : RepositorioBase, IRepositorioPago
-    {
+	public class RepositorioPago : RepositorioBase, IRepositorioPago
+	{
 
 		public RepositorioPago(IConfiguration configuration) : base(configuration)
 		{
-			
+
 		}
 
 
@@ -95,14 +95,14 @@ namespace WebApplicationPrueba.Models
 				//sql funcional
 				string consultasql = "SELECT c.Id, FechaDesde, FechaHasta, InquilinoId, InmuebleId," +
 					" i.Nombre AS InquilinoNombre,i.Apellido AS InquilinoApellido," +
-					"inm.Direccion, inm.PropietarioId,p.Nombre AS PropietarioNombre ,"+
+					"inm.Direccion, inm.PropietarioId,p.Nombre AS PropietarioNombre ," +
 					 "p.Apellido AS PropietarioApellido ," +
 					 "pa.id AS PagoId,pa.fecha AS fechaPago ," +
 					 "pa.monto AS montoPago,pa.contratoId" +
 					 " FROM Contratos c " +
 					 " INNER JOIN Inquilinos i ON i.Id = c.InquilinoId" +
 					 " INNER JOIN Inmuebles inm ON inm.Id = c.InmuebleId" +
-					 " INNER JOIN Propietarios p ON inm.PropietarioId = p.Id"+
+					 " INNER JOIN Propietarios p ON inm.PropietarioId = p.Id" +
 					 " INNER JOIN Pagos pa ON pa.ContratoId = c.Id";
 
 
@@ -119,8 +119,8 @@ namespace WebApplicationPrueba.Models
 							Fecha = reader.GetDateTime(12),
 							Monto = reader.GetSqlMoney(13),
 							ContratoId = reader.GetInt32(0),
-							
-							Contrato= new Contrato 
+
+							Contrato = new Contrato
 							{
 								Id = reader.GetInt32(0),
 								FechaDesde = reader.GetDateTime(1),
@@ -150,9 +150,9 @@ namespace WebApplicationPrueba.Models
 								}
 							},
 
-							
 
-							
+
+
 						};
 						res.Add(pago);
 					}
@@ -167,18 +167,22 @@ namespace WebApplicationPrueba.Models
 
 		public Pago ObtenerPorId(int id)
 		{
-			Contrato contrato = null;
+			Pago pago = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = "SELECT c.Id, FechaDesde, FechaHasta, InquilinoId, InmuebleId," +
-					" i.Nombre AS InquilinoNombre,i.Apellido AS InquilinoApellido," +
-					"inm.Direccion, inm.PropietarioId,p.Nombre AS PropietarioNombre ," +
-					 "p.Apellido AS PropietarioApellido" +
-					 " FROM Contratos c " +
+
+
+				string sql = "SELECT pa.Id,pa.monto,pa.fecha,pa.contratoId," +
+					"c.FechaDesde, c.FechaHasta, c.InquilinoId, c.InmuebleId," +
+					" i.Nombre,i.Apellido," +
+					"inm.Direccion, inm.PropietarioId," +
+					"p.Nombre,p.Apellido" +
+					 " FROM Pagos pa " +
+					 "INNER JOIN Contratos c ON Pa.contratoId = c.Id" +
 					 " INNER JOIN Inquilinos i ON i.Id = c.InquilinoId" +
 					 " INNER JOIN Inmuebles inm ON inm.Id = c.InmuebleId" +
 					 " INNER JOIN Propietarios p ON inm.PropietarioId = p.Id" +
-					 $" WHERE c.Id=@id ";
+					 $" WHERE pa.Id=@id ";
 
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -188,41 +192,51 @@ namespace WebApplicationPrueba.Models
 					var reader = command.ExecuteReader();
 					if (reader.Read())
 					{
-						contrato = new Contrato
+						pago = new Pago
 						{
 							Id = reader.GetInt32(0),
-							FechaDesde = reader.GetDateTime(1),
-							FechaHasta = reader.GetDateTime(2),
-							InquilinoId = reader.GetInt32(3),
-							InmuebleId = reader.GetInt32(4),
+							Fecha = reader.GetDateTime(2),
+							Monto = reader.GetSqlMoney(1),
+							ContratoId = reader.GetInt32(3),
 
-							Inquilino = new Inquilino
+
+
+							Contrato = new Contrato
 							{
-								Id = reader.GetInt32(3),
-								Nombre = reader.GetString(5),
-								Apellido = reader.GetString(6),
-							},
+								Id = reader.GetInt32(0),
+								FechaDesde = reader.GetDateTime(4),
+								FechaHasta = reader.GetDateTime(5),
+								InquilinoId = reader.GetInt32(6),
+								InmuebleId = reader.GetInt32(7),
 
-							Inmueble = new Inmueble
-							{
-								Id = reader.GetInt32(4),
-								Direccion = reader.GetString(7),
-								PropietarioId = reader.GetInt32(8),
-
-								Duenio = new Propietario
+								Inquilino = new Inquilino
 								{
-									Id = reader.GetInt32(8),
-									Nombre = reader.GetString(9),
-									Apellido = reader.GetString(10),
+									Id = reader.GetInt32(6),
+									Nombre = reader.GetString(8),
+									Apellido = reader.GetString(9),
+								},
+
+								Inmueble = new Inmueble
+								{
+									Id = reader.GetInt32(7),
+									Direccion = reader.GetString(10),
+									PropietarioId = reader.GetInt32(11),
+
+									Duenio = new Propietario
+									{
+										Id = reader.GetInt32(11),
+										Nombre = reader.GetString(12),
+										Apellido = reader.GetString(13),
+									}
 								}
 							}
 						};
+						connection.Close();
 					}
-					connection.Close();
 				}
+				return pago;
 			}
-			return contrato;
-		}
 
+		}
 	}
 }

@@ -6,30 +6,28 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using WebApplicationPrueba.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplicationPrueba.Controllers
 {
     public class PagoController : Controller
     {
-        private readonly RepositorioPago repositorio;
-        private readonly RepositorioContrato repositorioContrato;
-        private readonly RepositorioInmueble repositorioInmueble;
-        private readonly RepositorioPropietario repoPropietario;
-        private readonly RepositorioInquilino repoInquilinos;
+        private readonly IRepositorioPago repositorio;
+        private readonly IRepositorioContrato repositorioContrato;
+        private readonly IConfiguration configuration;
 
-        public PagoController(IConfiguration configuration)
+        public PagoController(IConfiguration configuration , IRepositorioPago repositorio, IRepositorioContrato repositorioContrato)
         {
-            this.repositorio = new RepositorioPago(configuration);
-            this.repositorioContrato = new RepositorioContrato(configuration);
-            this.repoPropietario = new RepositorioPropietario(configuration);
-            this.repositorioInmueble = new RepositorioInmueble(configuration);
-            this.repoInquilinos = new RepositorioInquilino(configuration);
+            this.repositorio = repositorio;
+            this.repositorioContrato = repositorioContrato;
+            this.configuration = configuration;
         }
 
 
 
 
         // GET: PagoController
+        [Authorize]
         public ActionResult Index()
         {
             var lista = repositorio.ObtenerTodos();
@@ -41,18 +39,21 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: PagoController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: PagoController/Create
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: PagoController/Create
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -68,12 +69,14 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: PagoController/Edit/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
             return View();
         }
 
         // POST: PagoController/Edit/5
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -89,12 +92,14 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: PagoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             return View();
         }
 
         // POST: PagoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

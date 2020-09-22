@@ -6,19 +6,23 @@ using WebApplicationPrueba.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplicationPrueba.Controllers
 {
     public class InquilinoController : Controller
     {
-        private readonly RepositorioInquilino repositorio;
+        private readonly IRepositorioInquilino repositorio;
+        private readonly IConfiguration configuration;
 
-        public InquilinoController(IConfiguration configuration)
+        public InquilinoController(IConfiguration configuration, IRepositorioInquilino repositorio)
         {
-            repositorio = new RepositorioInquilino(configuration);
+            this.configuration = configuration;
+            this.repositorio = repositorio;
         }
 
         // GET: Inquilino
+        [Authorize]
         public ActionResult Index()
         {
             var lista = repositorio.ObtenerTodos();
@@ -26,12 +30,14 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inquilino/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: Inquilino/Create
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
             return View();
@@ -40,6 +46,7 @@ namespace WebApplicationPrueba.Controllers
         // POST: Inquilino/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create(Inquilino inquilino)
         {
             try
@@ -60,6 +67,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inquilino/Edit/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
             try
@@ -79,6 +87,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: Inquilino/Edit/5
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -105,6 +114,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inquilino/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             try
@@ -120,6 +130,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: Inquilino/Delete/5
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

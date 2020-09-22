@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using WebApplicationPrueba.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Inmobiliaria_.Net_Core.Controllers
 {
@@ -24,6 +25,7 @@ namespace Inmobiliaria_.Net_Core.Controllers
         }
 
         // GET: Propietario
+        [Authorize]
         public ActionResult Index()
         {
             try{
@@ -40,14 +42,15 @@ namespace Inmobiliaria_.Net_Core.Controllers
         }
 
         // GET: Propietario/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             return View();
         }
 
         // GET: Propietario/Buscar/5
+        [Authorize]
         [Route("[controller]/Buscar/{q}", Name = "Buscar")]
-        
         public IActionResult Buscar(string q)
         {
             try
@@ -60,9 +63,10 @@ namespace Inmobiliaria_.Net_Core.Controllers
                 return Json(new { Error = ex.Message });
             }
         }
-        
+
 
         // GET: Propietario/Create
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
             return View();
@@ -71,18 +75,19 @@ namespace Inmobiliaria_.Net_Core.Controllers
         // POST: Propietario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create(Propietario propietario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    /*propietario.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    propietario.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                         password: propietario.Clave,
                         salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
                         prf: KeyDerivationPrf.HMACSHA1,
                         iterationCount: 1000,
-                        numBytesRequested: 256 / 8));*/
+                        numBytesRequested: 256 / 8));
                     repositorio.Alta(propietario);
                     TempData["Id"] = propietario.Id;
                     return RedirectToAction(nameof(Index));
@@ -99,6 +104,7 @@ namespace Inmobiliaria_.Net_Core.Controllers
         }
 
         // GET: Propietario/Edit/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
 
@@ -121,6 +127,7 @@ namespace Inmobiliaria_.Net_Core.Controllers
         // POST: Propietario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             Propietario p = null;
@@ -145,9 +152,10 @@ namespace Inmobiliaria_.Net_Core.Controllers
             }
         }
 
-       
+
 
         // GET: Propietario/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Eliminar(int id)
         {
             /*
@@ -165,6 +173,7 @@ namespace Inmobiliaria_.Net_Core.Controllers
         // POST: Propietario/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Eliminar(int id, Propietario entidad)
         {
             try

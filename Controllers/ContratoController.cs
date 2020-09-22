@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,22 +12,23 @@ namespace WebApplicationPrueba.Controllers
 {
     public class ContratoController : Controller
     {
-        private readonly RepositorioContrato repositorio;
-        private readonly RepositorioInmueble repositorioInmueble;
-        private readonly RepositorioPropietario repoPropietario;
-        private readonly RepositorioInquilino repoInquilinos;
+        private readonly IRepositorioContrato repositorio;
+        private readonly IRepositorioInmueble repositorioInmueble;
+        private readonly IRepositorioPropietario repoPropietario;
+        private readonly IRepositorioInquilino repoInquilinos;
 
-        public ContratoController(IConfiguration configuration)
+        public ContratoController(IConfiguration configuration, IRepositorioContrato repositorio, IRepositorioInmueble repositorioInmueble, IRepositorioPropietario repoPropietario, IRepositorioInquilino repoInquilinos)
         {
-            this.repositorio = new RepositorioContrato(configuration);
-            this.repoPropietario = new RepositorioPropietario(configuration);
-            this.repositorioInmueble = new RepositorioInmueble(configuration);
-            this.repoInquilinos = new RepositorioInquilino(configuration);
+            this.repositorio = repositorio;
+            this.repoPropietario = repoPropietario;
+            this.repositorioInmueble = repositorioInmueble;
+            this.repoInquilinos = repoInquilinos;
         }
 
 
 
         // GET: ContratoController
+        [Authorize]
         public ActionResult Index()
         {
             var lista = repositorio.ObtenerTodos();
@@ -38,6 +40,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: ContratoController/Details/5
+        [Authorize]
         public ActionResult Details(int id)
         {
             var entidad = repositorio.ObtenerPorId(id);
@@ -45,6 +48,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: ContratoController/Create
+        [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
             ViewBag.Inquilinos = repoInquilinos.ObtenerTodos();
@@ -53,6 +57,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: ContratoController/Create
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Contrato contrato)
@@ -81,6 +86,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: ContratoController/Edit/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Edit(int id)
         {
             var entidad = repositorio.ObtenerPorId(id);
@@ -94,6 +100,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: ContratoController/Edit/5
+        [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Contrato entidad)
@@ -116,6 +123,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: ContratoController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             try
@@ -135,6 +143,7 @@ namespace WebApplicationPrueba.Controllers
         // POST: ContratoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, Contrato entidad)
         {
             try

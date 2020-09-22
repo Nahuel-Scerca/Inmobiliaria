@@ -10,26 +10,41 @@
 </head>
 <body>
     <header>
+        <nav class="site-header fixed-top py-1">
+            <!-- sticky-top -->
+            <div class="container d-flex flex-column flex-md-row justify-content-between">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a class="py-2" asp-controller="Home" asp-action="Index"><span class="lnr lnr-home"></span> Inicio</a>
+                    <a class="py-2 d-none d-md-inline-block float-right" href="@Url.Link("login", null)"><span class="lnr lnr-enter"></span> Acceder</a> }
+                else
+                {
+                    <div class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle text-light" href="#" role="button" id="homeMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent" data-display="static">
+                            <span class="lnr lnr-home"></span> Inicio
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item text-dark" asp-controller="Home" asp-action="Index"><span class="lnr lnr-home"></span> Inicio</a>
+                            <a class="dropdown-item text-dark" asp-controller="Home" asp-action="Seguro"><i class="lnr lnr-layers"></i> Claims</a>
+                            <a class="dropdown-item text-dark" asp-controller="Home" asp-action="Fecha" asp-route-anio="@DateTime.Today.Year" asp-route-mes="@DateTime.Today.Month" asp-route-dia="@DateTime.Today.Day"><i class="lnr lnr-calendar-full"></i> Fecha</a>
+                        </div>
+                    </div>
+                    @if (User.IsInRole("Administrador") || User.IsInRole("SuperAdministrador"))
+                    {
+                        <a class="py-2 d-none d-md-inline-block" asp-controller="Usuarios" asp-action="Index"><span class="lnr lnr-star"></span> Usuarios</a>}
+                    <a class="py-2 d-none d-md-inline-block" asp-controller="Propietarios" asp-action="Index"><span class="lnr lnr-user"></span> Propietarios</a>
+                    <a class="py-2 d-none d-md-inline-block" asp-controller="Inmuebles" asp-action="Index"><span class="lnr lnr-apartment"></span> Inmuebles</a>
+                    <a class="py-2 d-none d-md-inline-block" asp-controller="Alquileres" asp-action="Index"><span class="lnr lnr-enter"></span> Alquileres</a>
+                    <div class="dropdown">
+                        <a class="btn btn-primary dropdown-toggle text-light" href="#" role="button" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent" data-display="static">
+                            <span class="lnr lnr-user"></span> @User.Identity.Name
+                        </a>
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="Inicio" asp-controller="Home" asp-action="Index">Inicio <i class="fa fa-fw fa-home"></i></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="Contratos" asp-controller="Contrato" asp-action="Index">Contratos </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Contacto </a>
-                        </li>
-                    </ul>
-                </div>
-
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item text-dark" asp-controller="Usuarios" asp-action="Perfil"><i class="lnr lnr-user"></i> Perfil</a>
+                            <a class="dropdown-item text-dark" asp-controller="Usuarios" asp-action="Logout"><i class="lnr lnr-exit"></i> Salir</a>
+                        </div>
+                    </div>}
             </div>
         </nav>
     </header>

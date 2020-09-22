@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Inmobiliaria_.Net_Core.Models;
+using WebApplicationPrueba.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -19,10 +19,11 @@ namespace WebApplicationPrueba.Models
     public class UsuariosController : Controller
     {
         private readonly IConfiguration configuration;
-        private readonly IHostingEnvironment environment;
+        private readonly IWebHostEnvironment environment;
         private readonly IRepositorioUsuario repositorio;
 
-        public UsuariosController(IConfiguration configuration, IHostingEnvironment environment, IRepositorioUsuario repositorio)
+        //IHostingEnvironment sustituido por  IWebHostEnvironment
+        public UsuariosController(IConfiguration configuration, IWebHostEnvironment environment, IRepositorioUsuario repositorio)
         {
             this.configuration = configuration;
             this.environment = environment;
@@ -94,6 +95,7 @@ namespace WebApplicationPrueba.Models
             }
             catch (Exception ex)
             {
+                string error=ex.Message;
                 ViewBag.Roles = Usuario.ObtenerRoles();
                 return View();
             }
@@ -193,7 +195,7 @@ namespace WebApplicationPrueba.Models
         }
 
         [AllowAnonymous]
-        // GET: Usuarios/Login/
+        // GET: Usuarios/Login/ --String returnUrl
         public ActionResult Login()
         {
             return View();
