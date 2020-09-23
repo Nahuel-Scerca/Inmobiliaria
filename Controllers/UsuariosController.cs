@@ -19,11 +19,11 @@ namespace WebApplicationPrueba.Models
     public class UsuariosController : Controller
     {
         private readonly IConfiguration configuration;
-        private readonly IWebHostEnvironment environment;
+        private readonly IHostingEnvironment environment;
         private readonly IRepositorioUsuario repositorio;
 
         //IHostingEnvironment sustituido por  IWebHostEnvironment
-        public UsuariosController(IConfiguration configuration, IWebHostEnvironment environment, IRepositorioUsuario repositorio)
+        public UsuariosController(IConfiguration configuration, IHostingEnvironment environment, IRepositorioUsuario repositorio)
         {
             this.configuration = configuration;
             this.environment = environment;
