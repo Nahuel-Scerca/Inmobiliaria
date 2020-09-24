@@ -20,8 +20,8 @@ namespace WebApplicationPrueba.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"INSERT INTO Inmuebles (Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId) " +
-					"VALUES (@direccion, @ambientes, @superficie, @latitud, @longitud, @propietarioId);" +
+				string sql = $"INSERT INTO Inmuebles (Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId,Tipo,Uso,Precio,Estado) " +
+					"VALUES (@direccion, @ambientes, @superficie, @latitud, @longitud, @propietarioId,@Tipo,@Uso,@Precio,@Estado);" +
 					"SELECT SCOPE_IDENTITY();";//devuelve el id insertado (LAST_INSERT_ID para mysql)
 				using (var command = new SqlCommand(sql, connection))
 				{
@@ -32,6 +32,10 @@ namespace WebApplicationPrueba.Models
 					command.Parameters.AddWithValue("@latitud", entidad.Latitud);
 					command.Parameters.AddWithValue("@longitud", entidad.Longitud);
 					command.Parameters.AddWithValue("@propietarioId", entidad.PropietarioId);
+					command.Parameters.AddWithValue("@Tipo", entidad.Tipo);
+					command.Parameters.AddWithValue("@Uso", entidad.Uso);
+					command.Parameters.AddWithValue("@Precio", entidad.Precio);
+					command.Parameters.AddWithValue("@Estado", entidad.Estado);
 					connection.Open();
 					res = Convert.ToInt32(command.ExecuteScalar());
 					entidad.Id = res;
@@ -62,7 +66,7 @@ namespace WebApplicationPrueba.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = "UPDATE Inmuebles SET " +
-					"Direccion=@direccion, Ambientes=@ambientes, Superficie=@superficie, Latitud=@latitud, Longitud=@longitud, PropietarioId=@propietarioId " +
+					"Direccion=@direccion, Ambientes=@ambientes, Superficie=@superficie, Latitud=@latitud, Longitud=@longitud, PropietarioId=@propietarioId,Tipo=@tipo,Uso=@uso,Precio=@precio,Estado=@estado" +
 					"WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -72,6 +76,10 @@ namespace WebApplicationPrueba.Models
 					command.Parameters.AddWithValue("@latitud", entidad.Latitud);
 					command.Parameters.AddWithValue("@longitud", entidad.Longitud);
 					command.Parameters.AddWithValue("@propietarioId", entidad.PropietarioId);
+					command.Parameters.AddWithValue("@tipo", entidad.Tipo);
+					command.Parameters.AddWithValue("@uso", entidad.Uso);
+					command.Parameters.AddWithValue("@precio", entidad.Precio);
+					command.Parameters.AddWithValue("@estado", entidad.Estado);
 					command.Parameters.AddWithValue("@id", entidad.Id);
 					command.CommandType = CommandType.Text;
 					connection.Open();
@@ -88,7 +96,7 @@ namespace WebApplicationPrueba.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = "SELECT i.Id, Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId," +
-					" p.Nombre, p.Apellido" +
+					" p.Nombre, p.Apellido, Tipo, Uso, Precio, Estado" +
 					" FROM Inmuebles i INNER JOIN Propietarios p ON i.PropietarioId = p.Id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -106,6 +114,10 @@ namespace WebApplicationPrueba.Models
 							Latitud = reader.GetDecimal(4),
 							Longitud = reader.GetDecimal(5),
 							PropietarioId = reader.GetInt32(6),
+							Tipo = reader.GetString(9),
+							Uso = reader.GetString(10),
+							Precio = reader.GetDecimal(11),
+							Estado = reader.GetInt32(12),
 							Duenio = new Propietario
 							{
 								Id = reader.GetInt32(6),
@@ -126,9 +138,9 @@ namespace WebApplicationPrueba.Models
 			Inmueble entidad = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId, p.Nombre, p.Apellido" +
+				string sql = $"SELECT i.Id, Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId, p.Nombre, p.Apellido, Tipo, Uso, Precio, Estado" +
 					$" FROM Inmuebles i INNER JOIN Propietarios p ON i.PropietarioId = p.Id" +
-					$" WHERE Id=@id";
+					$" WHERE i.Id=@id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
@@ -146,6 +158,10 @@ namespace WebApplicationPrueba.Models
 							Latitud = reader.GetDecimal(4),
 							Longitud = reader.GetDecimal(5),
 							PropietarioId = reader.GetInt32(6),
+							Tipo = reader.GetString(9),
+							Uso = reader.GetString(10),
+							Precio = reader.GetDecimal(11),
+							Estado = reader.GetInt32(12),
 							Duenio = new Propietario
 							{
 								Id = reader.GetInt32(6),
@@ -166,7 +182,7 @@ namespace WebApplicationPrueba.Models
 			Inmueble entidad = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId, p.Nombre, p.Apellido" +
+				string sql = $"SELECT Id, Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId, p.Nombre, p.Apellido, Tipo, Uso, Precio, Estado" +
 					$" FROM Inmuebles i INNER JOIN Propietarios p ON i.PropietarioId = p.Id" +
 					$" WHERE PropietarioId=@idPropietario";
 				using (SqlCommand command = new SqlCommand(sql, connection))
@@ -186,6 +202,10 @@ namespace WebApplicationPrueba.Models
 							Latitud = reader.GetDecimal(4),
 							Longitud = reader.GetDecimal(5),
 							PropietarioId = reader.GetInt32(6),
+							Tipo = reader.GetString(9),
+							Uso = reader.GetString(10),
+							Precio = reader.GetDecimal(11),
+							Estado = reader.GetInt32(12),
 							Duenio = new Propietario
 							{
 								Id = reader.GetInt32(6),

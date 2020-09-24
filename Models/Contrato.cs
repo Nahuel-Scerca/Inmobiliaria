@@ -11,11 +11,12 @@ namespace WebApplicationPrueba.Models
     {
         [Display(Name = "Código")]
         public int Id { get; set; }
-        [Required]
+        
         [Display(Name = "Fecha Emision")]
+        [Required, DataType(DataType.Date)]
         public DateTime FechaDesde { get; set; }
 
-        [Required]
+        [Required, DataType(DataType.Date)]
         [Display(Name = "Fecha Vencimiento")]
         public DateTime FechaHasta { get; set; }
         

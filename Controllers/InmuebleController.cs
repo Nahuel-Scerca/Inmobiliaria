@@ -16,6 +16,7 @@ namespace WebApplicationPrueba.Controllers
         private readonly IRepositorioInmueble repositorio;
         private readonly IRepositorioPropietario repoPropietario;
 
+
         public InmuebleController(IConfiguration configuration, IRepositorioInmueble repositorio, IRepositorioPropietario repoPropietario)
         {
             this.configuration = configuration;
@@ -48,6 +49,7 @@ namespace WebApplicationPrueba.Controllers
         public ActionResult Create()
         {
             ViewBag.Propietarios = repoPropietario.ObtenerTodos();
+            ViewBag.Estado = Inmueble.ObtenerRoles();
             return View();
         }
 
@@ -85,6 +87,7 @@ namespace WebApplicationPrueba.Controllers
         {
             var entidad = repositorio.ObtenerPorId(id);
             ViewBag.Propietarios = repoPropietario.ObtenerTodos();
+            ViewBag.Estado = Inmueble.ObtenerRoles();
             if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];
             if (TempData.ContainsKey("Error"))

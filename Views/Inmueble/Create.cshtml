@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Crear</h1>
 
 <h4>Inmueble</h4>
 <hr />
@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
             <div class="form-group">
                 <label asp-for="Direccion" class="control-label"></label>
                 <input asp-for="Direccion" class="form-control" />
@@ -22,6 +22,16 @@
                 <label asp-for="Ambientes" class="control-label"></label>
                 <input asp-for="Ambientes" class="form-control" />
                 <span asp-validation-for="Ambientes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label"></label>
+                <input asp-for="Tipo" class="form-control" />
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Uso" class="control-label"></label>
+                <input asp-for="Uso" class="form-control" />
+                <span asp-validation-for="Uso" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Superficie" class="control-label"></label>
@@ -38,16 +48,39 @@
                 <input asp-for="Longitud" class="form-control" />
                 <span asp-validation-for="Longitud" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Precio" class="control-label"></label>
+                <input asp-for="Precio" class="form-control" />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <input asp-for="Estado" class="form-control" />
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <label class="control-label">Propietario</label>
                 <select class="form-control" name="PropietarioId">
                     @foreach (var item in (IList<Propietario>)ViewBag.Propietarios)
                     {
-            <option value="@item.Id">@(item.Nombre + " " + item.Apellido)</option>}
+                        <option value="@item.Id">@(item.Nombre + " " + item.Apellido)</option>
+                    }
                 </select>
                 <span asp-validation-for="PropietarioId" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label class="control-label">Estado</label>
+                <select class="form-control" name="Estado">
+                    @foreach (var kvp in (IDictionary<int, string>)ViewBag.Estado)
+                    {
+                        <option value="@kvp.Key">@kvp.Value</option>
+                    }
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

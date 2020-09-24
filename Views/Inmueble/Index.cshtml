@@ -13,13 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Ambientes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uso)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Superficie)
@@ -31,22 +34,34 @@
                 @Html.DisplayNameFor(model => model.Longitud)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.PropietarioId)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoNombre)
+            </th>
+            <th></th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Direccion)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ambientes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Uso)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Superficie)
@@ -58,15 +73,26 @@
                 @Html.DisplayFor(modelItem => item.Longitud)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
                 @(item.Duenio.Nombre + " "+ item.Duenio.Apellido)
             </td>
-            
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Detalles", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Borrar", "Eliminar", new { id = item.Id })
+                @Html.DisplayFor(modelItem => item.EstadoNombre)
+            </td>
+            <td>
+                
+                @Html.ActionLink("", "Edit", new { id = item.Id }, new { @class = "btn btn-warning fa fa-pencil" })
+            </td>
+            <td>
+                @Html.ActionLink("", "Details", new { id = item.Id }, new { @class = "btn btn-primary fa  fa-info" })
+            </td>
+            <td>
+                
+                @Html.ActionLink("", "Eliminar", new { id = item.Id }, new { @class = "btn btn-danger fa fa-trash" })
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
