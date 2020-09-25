@@ -8,5 +8,6 @@ namespace WebApplicationPrueba.Models
 	public interface IRepositorioPago : IRepositorio<Pago>
 	{
 		//Agregar clases aqui
-    }
+			IList<Pago> BuscarPorContrato(int id);
+	}
 }

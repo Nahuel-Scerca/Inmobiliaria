@@ -37,18 +37,32 @@ namespace WebApplicationPrueba.Controllers
                 ViewBag.Mensaje = TempData["Mensaje"];
             return View(lista);
         }
+       
+        [Authorize]
+        public ActionResult indexPorContrato(int id)
+        {
+            var lista = repositorio.BuscarPorContrato(id);
+            if (TempData.ContainsKey("Id"))
+                ViewBag.Id = TempData["Id"];
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            return View(lista);
+        }
 
         // GET: PagoController/Details/5
         [Authorize]
         public ActionResult Details(int id)
         {
-            return View();
+            var entidad = repositorio.ObtenerPorId(id);
+            return View(entidad);
         }
 
         // GET: PagoController/Create
         [Authorize(Policy = "Administrador")]
         public ActionResult Create()
         {
+            
+            ViewBag.Contrato = repositorioContrato.ObtenerTodos();
             return View();
         }
 

@@ -117,7 +117,7 @@ namespace WebApplicationPrueba.Models
 						{
 							Id = reader.GetInt32(11),
 							Fecha = reader.GetDateTime(12),
-							Monto = reader.GetSqlMoney(13),
+							Monto = reader.GetDecimal(13),
 							ContratoId = reader.GetInt32(0),
 
 							Contrato = new Contrato
@@ -196,7 +196,7 @@ namespace WebApplicationPrueba.Models
 						{
 							Id = reader.GetInt32(0),
 							Fecha = reader.GetDateTime(2),
-							Monto = reader.GetSqlMoney(1),
+							Monto = reader.GetDecimal(1),
 							ContratoId = reader.GetInt32(3),
 
 
@@ -238,5 +238,85 @@ namespace WebApplicationPrueba.Models
 			}
 
 		}
-	}
+
+        public IList<Pago> BuscarPorContrato(int id)
+        {
+			IList<Pago> res = new List<Pago>();
+
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+
+				//sql funcional
+				string consultasql = "SELECT c.Id, FechaDesde, FechaHasta, InquilinoId, InmuebleId," +
+					" i.Nombre AS InquilinoNombre,i.Apellido AS InquilinoApellido," +
+					"inm.Direccion, inm.PropietarioId,p.Nombre AS PropietarioNombre ," +
+					 "p.Apellido AS PropietarioApellido ," +
+					 "pa.id AS PagoId,pa.fecha AS fechaPago ," +
+					 "pa.monto AS montoPago,pa.contratoId" +
+					 " FROM Contratos c " +
+					 " INNER JOIN Inquilinos i ON i.Id = c.InquilinoId" +
+					 " INNER JOIN Inmuebles inm ON inm.Id = c.InmuebleId" +
+					 " INNER JOIN Propietarios p ON inm.PropietarioId = p.Id" +
+					 " INNER JOIN Pagos pa ON pa.ContratoId = c.Id"+
+					 "WHERE c.id=@id";
+
+
+				using (SqlCommand command = new SqlCommand(consultasql, connection))
+				{
+					command.Parameters.Add("@id", SqlDbType.Int).Value = id;
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+					while (reader.Read())
+					{
+						Pago pago = new Pago
+						{
+							Id = reader.GetInt32(11),
+							Fecha = reader.GetDateTime(12),
+							Monto = reader.GetDecimal(13),
+							ContratoId = reader.GetInt32(0),
+
+							Contrato = new Contrato
+							{
+								Id = reader.GetInt32(0),
+								FechaDesde = reader.GetDateTime(1),
+								FechaHasta = reader.GetDateTime(2),
+								InquilinoId = reader.GetInt32(3),
+								InmuebleId = reader.GetInt32(4),
+
+								Inquilino = new Inquilino
+								{
+									Id = reader.GetInt32(3),
+									Nombre = reader.GetString(5),
+									Apellido = reader.GetString(6),
+								},
+
+								Inmueble = new Inmueble
+								{
+									Id = reader.GetInt32(4),
+									Direccion = reader.GetString(7),
+									PropietarioId = reader.GetInt32(8),
+
+									Duenio = new Propietario
+									{
+										Id = reader.GetInt32(8),
+										Nombre = reader.GetString(9),
+										Apellido = reader.GetString(10),
+									}
+								}
+							},
+
+
+
+
+						};
+						res.Add(pago);
+					}
+					connection.Close();
+				}
+			}
+			return res;
+		}
+    }
+
 }

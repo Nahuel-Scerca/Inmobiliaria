@@ -20,8 +20,8 @@ namespace WebApplicationPrueba.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"INSERT INTO Inquilinos (Nombre, Apellido, Dni, Telefono, Email) " +
-					$"VALUES (@nombre, @apellido, @dni, @telefono, @email);" +
+				string sql = $"INSERT INTO Inquilinos (Nombre, Apellido, Dni, Telefono, Email,NombreGarante,DniGarante,TelefonoGarante) " +
+					$"VALUES (@nombre, @apellido, @dni, @telefono, @email,@nombreGarante,@dniGarante,@telefonoGarante);" +
 					"SELECT SCOPE_IDENTITY();";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -31,6 +31,9 @@ namespace WebApplicationPrueba.Models
 					command.Parameters.AddWithValue("@dni", e.Dni);
 					command.Parameters.AddWithValue("@telefono", e.Telefono);
 					command.Parameters.AddWithValue("@email", e.Email);
+					command.Parameters.AddWithValue("@nombreGarante", e.NombreGarante);
+					command.Parameters.AddWithValue("@dniGarante", e.DniGarante);
+					command.Parameters.AddWithValue("@telefonoGarante", e.TelefonoGarante);
 
 					connection.Open();
 
@@ -63,7 +66,7 @@ namespace WebApplicationPrueba.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"UPDATE Inquilinos SET " +
-					$"Nombre=@nombre', Apellido=@apellido, Dni=@dni, Telefono=@telefono, Email=@email " +
+					$"Nombre=@nombre', Apellido=@apellido, Dni=@dni, Telefono=@telefono, Email=@email,NombreGarante=@nombreGarante,DniGarante=@dniGarante,TelefonoGarante=@telefonoGarante" +
 					$"WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -73,6 +76,9 @@ namespace WebApplicationPrueba.Models
 					command.Parameters.AddWithValue("@dni", e.Dni);
 					command.Parameters.AddWithValue("@telefono", e.Telefono);
 					command.Parameters.AddWithValue("@email", e.Email);
+					command.Parameters.AddWithValue("@nombreGarante", e.NombreGarante);
+					command.Parameters.AddWithValue("@dniGarante", e.DniGarante);
+					command.Parameters.AddWithValue("@telefonoGarante", e.TelefonoGarante);
 					command.Parameters.AddWithValue("@id", e.Id);
 					connection.Open();
 					res = command.ExecuteNonQuery();
@@ -87,7 +93,7 @@ namespace WebApplicationPrueba.Models
 			IList<Inquilino> res = new List<Inquilino>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email" +
+				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, NombreGarante, DniGarante, TelefonoGarante" +
 					$" FROM Inquilinos";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -104,6 +110,9 @@ namespace WebApplicationPrueba.Models
 							Dni = reader.GetString(3),
 							Telefono = reader.GetString(4),
 							Email = reader.GetString(5),
+							NombreGarante = reader.GetString(6),
+							DniGarante = reader.GetString(7),
+							TelefonoGarante = reader.GetString(8),
 						};
 						res.Add(p);
 					}
@@ -118,7 +127,7 @@ namespace WebApplicationPrueba.Models
 			Inquilino p = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email FROM Inquilinos" +
+				string sql = $"SELECT Id, Nombre, Apellido, Dni, Telefono, Email, NombreGarante, DniGarante, TelefonoGarante FROM Inquilinos" +
 					$" WHERE Id=@id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -136,6 +145,9 @@ namespace WebApplicationPrueba.Models
 							Dni = reader.GetString(3),
 							Telefono = reader.GetString(4),
 							Email = reader.GetString(5),
+							NombreGarante = reader.GetString(6),
+							DniGarante = reader.GetString(7),
+							TelefonoGarante = reader.GetString(8),
 						};
 						return p;
 					}

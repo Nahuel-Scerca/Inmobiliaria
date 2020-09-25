@@ -20,5 +20,16 @@ namespace WebApplicationPrueba.Models
 			public string Telefono { get; set; }
 			[Required, EmailAddress]
 			public string Email { get; set; }
+
+
+			[Required]
+			[Display(Name = "Garante")]
+			public string NombreGarante { get; set; }
+			[Required]
+			[Display(Name = "DNI Garante")]
+			public string DniGarante { get; set; }
+			[Required]
+			[Display(Name = "Telefono Garante")]
+			public string TelefonoGarante { get; set; }
 	}
 }

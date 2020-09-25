@@ -19,7 +19,7 @@ namespace WebApplicationPrueba.Models
 
         [Required]
         [Display(Name = "Monto")]
-        public SqlMoney Monto { get; set; }
+        public decimal Monto { get; set; }
 
 
 

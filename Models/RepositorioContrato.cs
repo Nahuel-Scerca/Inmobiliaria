@@ -23,8 +23,8 @@ namespace WebApplicationPrueba.Models
 			int res = -1;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"INSERT INTO Contratos (FechaDesde,FechaHasta, InquilinoId, InmuebleId) " +
-					"VALUES (@FechaDesde, @FechaHasta, @InquilinoId, @InmuebleId);" +
+				string sql = $"INSERT INTO Contratos (FechaDesde,FechaHasta, InquilinoId, InmuebleId, PrecioMensual) " +
+					"VALUES (@FechaDesde, @FechaHasta, @InquilinoId, @InmuebleId, @PrecioMensual);" +
 					"SELECT SCOPE_IDENTITY();";//devuelve el id insertado (LAST_INSERT_ID para mysql)
 				using (var command = new SqlCommand(sql, connection))
 				{
@@ -33,6 +33,7 @@ namespace WebApplicationPrueba.Models
 					command.Parameters.AddWithValue("@FechaHasta", contrato.FechaHasta);
 					command.Parameters.AddWithValue("@InquilinoId", contrato.InquilinoId);
 					command.Parameters.AddWithValue("@InmuebleId", contrato.InmuebleId);
+					command.Parameters.AddWithValue("@PrecioMensual", contrato.PrecioMensual);
 					connection.Open();
 					res = Convert.ToInt32(command.ExecuteScalar());
 					contrato.Id = res;
@@ -67,7 +68,7 @@ namespace WebApplicationPrueba.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = "UPDATE Contratos SET " +
-					"FechaDesde=@FechaDesde, FechaHasta=@FechaHasta, InquilinoId=@InquilinoId, InmuebleId=@InmuebleId " +
+					"FechaDesde=@FechaDesde, FechaHasta=@FechaHasta, InquilinoId=@InquilinoId, InmuebleId=@InmuebleId, PrecioMensual=@PrecioMensual " +
 					"WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -75,6 +76,7 @@ namespace WebApplicationPrueba.Models
 					command.Parameters.AddWithValue("@FechaHasta", contrato.FechaHasta);
 					command.Parameters.AddWithValue("@InquilinoId", contrato.InquilinoId);
 					command.Parameters.AddWithValue("@InmuebleId", contrato.InmuebleId);
+					command.Parameters.AddWithValue("@PrecioMensual", contrato.PrecioMensual);
 
 					command.Parameters.AddWithValue("@id", contrato.Id);
 					command.CommandType = CommandType.Text;
@@ -98,7 +100,7 @@ namespace WebApplicationPrueba.Models
 				string consultasql = "SELECT c.Id, FechaDesde, FechaHasta, InquilinoId, InmuebleId,"+
 					" i.Nombre AS InquilinoNombre,i.Apellido AS InquilinoApellido," +
 					"inm.Direccion, inm.PropietarioId,p.Nombre AS PropietarioNombre ,"+
-					 "p.Apellido AS PropietarioApellido"+
+					 "p.Apellido AS PropietarioApellido , c.PrecioMensual" +
 					 " FROM Contratos c " +
 					 " INNER JOIN Inquilinos i ON i.Id = c.InquilinoId"+
 					 " INNER JOIN Inmuebles inm ON inm.Id = c.InmuebleId"+
@@ -118,6 +120,7 @@ namespace WebApplicationPrueba.Models
 							FechaHasta = reader.GetDateTime(2),
 							InquilinoId = reader.GetInt32(3),
 							InmuebleId = reader.GetInt32(4),
+							PrecioMensual = reader.GetDecimal(11),
 
 							Inquilino = new Inquilino
 							{
@@ -159,7 +162,7 @@ namespace WebApplicationPrueba.Models
 				string sql = "SELECT c.Id, FechaDesde, FechaHasta, InquilinoId, InmuebleId," +
 					" i.Nombre AS InquilinoNombre,i.Apellido AS InquilinoApellido," +
 					"inm.Direccion, inm.PropietarioId,p.Nombre AS PropietarioNombre ," +
-					 "p.Apellido AS PropietarioApellido" +
+					 "p.Apellido AS PropietarioApellido , PrecioMensual" +
 					 " FROM Contratos c " +
 					 " INNER JOIN Inquilinos i ON i.Id = c.InquilinoId" +
 					 " INNER JOIN Inmuebles inm ON inm.Id = c.InmuebleId" +
@@ -181,6 +184,7 @@ namespace WebApplicationPrueba.Models
 							FechaHasta = reader.GetDateTime(2),
 							InquilinoId = reader.GetInt32(3),
 							InmuebleId = reader.GetInt32(4),
+							PrecioMensual = reader.GetDecimal(11),
 
 							Inquilino = new Inquilino
 							{

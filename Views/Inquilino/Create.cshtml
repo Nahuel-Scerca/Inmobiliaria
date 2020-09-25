@@ -1,10 +1,10 @@
 ﻿@model WebApplicationPrueba.Models.Inquilino
 
 @{
-    ViewData["Title"] = "Crear Inquilino";
+    ViewData["Title"] = "Crear";
 }
 
-<h1>Crear</h1>
+<h1>Crear Inquilino</h1>
 
 <h4>Inquilino</h4>
 <hr />
@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
@@ -38,15 +38,30 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+            <div class="form-group" style="background-color: #AAA8A7;">
+                <label asp-for="NombreGarante" class="control-label"></label>
+                <input asp-for="NombreGarante" class="form-control" />
+                <span asp-validation-for="NombreGarante" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="background-color: #AAA8A7;" >
+                <label asp-for="DniGarante" class="control-label"></label>
+                <input asp-for="DniGarante" class="form-control" />
+                <span asp-validation-for="DniGarante" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="background-color: #AAA8A7;" >
+                <label asp-for="TelefonoGarante" class="control-label"></label>
+                <input asp-for="TelefonoGarante" class="form-control" />
+                <span asp-validation-for="TelefonoGarante" class="text-danger"></span>
+            </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Volver a la lista de Inquilinos</a>
+    <a class="btn btn-outline-danger" asp-action="Index">Volver a la lista de Inquilinos</a>
 </div>
 
 @section Scripts {

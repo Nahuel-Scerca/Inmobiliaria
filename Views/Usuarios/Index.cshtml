@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<WebApplicationPrueba.Models.Usuario>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Usuarios";
 }
 
-<h1>Index</h1>
+<h1>Usuario</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-outline-success" asp-action="Create">Crear Usuario</a>
 </p>
-<table class="table">
+<table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th>
@@ -31,34 +31,39 @@
                 @Html.DisplayNameFor(model => model.Rol)
             </th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.Id)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Nombre)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Apellido)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Email)
-			</td>
-			<td>
-				<img width="32" src="@item.Avatar" />
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.RolNombre)
-			</td>
-			<td>
-				<a asp-action="Edit" asp-route-id="@item.Id" title="Editar"><span class="lnr lnr-pencil"></span></a>&nbsp;
-				<a asp-action="Eliminar" asp-route-id="@item.Id" title="Eliminar"><span class="lnr lnr-cross"></span></a>
-			</td>
-		</tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <img width="32" src="@item.Avatar" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RolNombre)
+            </td>
+            <td>
+
+                @Html.ActionLink("", "Edit", new { id = item.Id }, new { @class = "btn btn-outline-warning fa fa-pencil" })
+            </td>
+            <td>
+
+                @Html.ActionLink("", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger fa fa-trash" })
+            </td>
+        </tr>
 }
     </tbody>
 </table>

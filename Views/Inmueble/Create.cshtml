@@ -1,7 +1,7 @@
 ﻿@model WebApplicationPrueba.Models.Inmueble
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear";
 }
 
 <h1>Crear</h1>
@@ -64,7 +64,7 @@
                 <select class="form-control" name="PropietarioId">
                     @foreach (var item in (IList<Propietario>)ViewBag.Propietarios)
                     {
-                        <option value="@item.Id">@(item.Nombre + " " + item.Apellido)</option>
+                        <option value="@item.Id">@(item.Nombre + " " + item.Apellido + " :"+item.Dni)</option>
                     }
                 </select>
                 <span asp-validation-for="PropietarioId" class="text-danger"></span>
@@ -83,14 +83,14 @@
 
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Volver a la lista</a>
+    <a class="btn btn-outline-danger" asp-action="Index">Volver a la lista</a>
 </div>
 
 @section Scripts {

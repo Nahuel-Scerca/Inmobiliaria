@@ -19,7 +19,11 @@ namespace WebApplicationPrueba.Models
         [Required, DataType(DataType.Date)]
         [Display(Name = "Fecha Vencimiento")]
         public DateTime FechaHasta { get; set; }
-        
+
+        [Required]
+        [Display(Name = "Precio")]
+        public decimal PrecioMensual { get; set; }
+
 
         [Display(Name = "Inquilino")]
         public int InquilinoId { get; set; }

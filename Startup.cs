@@ -83,6 +83,7 @@ namespace WebApplicationPrueba
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute("login", "login/{**accion}", new { controller = "Usuarios", action = "Login" });
+                endpoints.MapControllerRoute("indexPagos", "Contrato/index/id", new { controller = "Pagos", action = "indexPorContrato" });
                 endpoints.MapControllerRoute(name: "default",pattern: "{controller=Home}/{action=Index}/{id?}");
                 //endpoints.MapControllerRoute(name: "ruta", pattern: "{controller=Home}/{action=Index}/{id?}");
             });
