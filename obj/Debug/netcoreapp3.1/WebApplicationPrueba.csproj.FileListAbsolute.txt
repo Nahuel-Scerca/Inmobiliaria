@@ -291,3 +291,4 @@ C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\View
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Edit.cshtml.g.cs
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Inmueble\Details.cshtml.g.cs
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Pago\Details.cshtml.g.cs
+C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Pago\Create.cshtml.g.cs

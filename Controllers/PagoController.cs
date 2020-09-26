@@ -59,10 +59,11 @@ namespace WebApplicationPrueba.Controllers
 
         // GET: PagoController/Create
         [Authorize(Policy = "Administrador")]
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             
-            ViewBag.Contrato = repositorioContrato.ObtenerTodos();
+            ViewBag.Contrato = repositorioContrato.ObtenerPorId(id);
+
             return View();
         }
 
@@ -70,15 +71,27 @@ namespace WebApplicationPrueba.Controllers
         [Authorize(Policy = "Administrador")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Pago pago)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    repositorio.Alta(pago);
+                    TempData["Id"] = pago.Id;
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.Contrato = repositorioContrato.ObtenerTodos();
+                    return View(pago);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Error = ex.Message;
+                ViewBag.StackTrate = ex.StackTrace;
+                return View(pago);
             }
         }
 

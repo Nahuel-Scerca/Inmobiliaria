@@ -257,7 +257,7 @@ namespace WebApplicationPrueba.Models
 					 " INNER JOIN Inquilinos i ON i.Id = c.InquilinoId" +
 					 " INNER JOIN Inmuebles inm ON inm.Id = c.InmuebleId" +
 					 " INNER JOIN Propietarios p ON inm.PropietarioId = p.Id" +
-					 " INNER JOIN Pagos pa ON pa.ContratoId = c.Id"+
+					 " INNER JOIN Pagos pa ON pa.ContratoId = c.Id "+
 					 "WHERE c.id=@id";
 
 
