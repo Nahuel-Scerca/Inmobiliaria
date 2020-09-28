@@ -78,7 +78,7 @@
                 @Html.ActionLink("", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger fa fa-trash" })
             </td>
             <td>
-                <a class="btn btn-outline-secondary" asp-controller="Pago" asp-action="indexPorContrato" asp-route-id="@item.Id" title="Editar">Pagos del  contrato</a>
+                <a class="btn btn-outline-secondary" asp-controller="Pago" asp-action="IndexPorContrato" asp-route-id="@item.Id" title="Pagos">Pagos del  contrato</a>
             </td>
             <td>
                 <a class="btn btn-outline-secondary" asp-controller="Pago" asp-action="Create" asp-route-id="@item.Id" title="Crear">Pagar Mensualidad de contrato</a>

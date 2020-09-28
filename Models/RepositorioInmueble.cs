@@ -67,7 +67,7 @@ namespace WebApplicationPrueba.Models
 			{
 				string sql = "UPDATE Inmuebles SET " +
 					"Direccion=@direccion, Ambientes=@ambientes, Superficie=@superficie, Latitud=@latitud, Longitud=@longitud, PropietarioId=@propietarioId,Tipo=@tipo,Uso=@uso,Precio=@precio,Estado=@estado" +
-					"WHERE Id = @id";
+					" WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.AddWithValue("@direccion", entidad.Direccion);

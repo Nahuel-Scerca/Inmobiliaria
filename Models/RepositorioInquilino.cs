@@ -66,8 +66,8 @@ namespace WebApplicationPrueba.Models
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
 				string sql = $"UPDATE Inquilinos SET " +
-					$"Nombre=@nombre', Apellido=@apellido, Dni=@dni, Telefono=@telefono, Email=@email,NombreGarante=@nombreGarante,DniGarante=@dniGarante,TelefonoGarante=@telefonoGarante" +
-					$"WHERE Id = @id";
+					$"Nombre=@nombre, Apellido=@apellido, Dni=@dni, Telefono=@telefono, Email=@email,NombreGarante=@nombreGarante,DniGarante=@dniGarante,TelefonoGarante=@telefonoGarante" +
+					$" WHERE Id = @id";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;

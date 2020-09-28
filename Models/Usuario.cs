@@ -28,8 +28,9 @@ namespace WebApplicationPrueba.Models
 		[Required, DataType(DataType.Password)]
 		public string Clave { get; set; }
 		public string Avatar { get; set; }
-		public IFormFile AvatarFile { get; set; }		
+		public IFormFile AvatarFile { get; set; }
 		public int Rol { get; set; }
+
 
 		public string RolNombre => Rol > 0 ? ((enRoles)Rol).ToString() : "";
 

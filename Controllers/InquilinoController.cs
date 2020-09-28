@@ -91,7 +91,7 @@ namespace WebApplicationPrueba.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
-        {
+        {//cambias el iformCollection con iform Inquilino
             Inquilino p = null;
             try
             {

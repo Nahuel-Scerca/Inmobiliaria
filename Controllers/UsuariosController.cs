@@ -61,44 +61,47 @@ namespace WebApplicationPrueba.Models
         {
             if (!ModelState.IsValid)
                 return View();
+
             try
-            {
-                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                        password: u.Clave,
-                        salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
-                        prf: KeyDerivationPrf.HMACSHA1,
-                        iterationCount: 1000,
-                        numBytesRequested: 256 / 8));
-                u.Clave = hashed;
-                u.Rol = User.IsInRole("Administrador") ? u.Rol : (int)enRoles.Empleado;
-                var nbreRnd = Guid.NewGuid();//posible nombre aleatorio
-                int res = repositorio.Alta(u);
-                if (u.AvatarFile != null && u.Id > 0)
                 {
-                    string wwwPath = environment.WebRootPath;
-                    string path = Path.Combine(wwwPath, "Uploads");
-                    if (!Directory.Exists(path))
+                    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                            password: u.Clave,
+                            salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
+                            prf: KeyDerivationPrf.HMACSHA1,
+                            iterationCount: 1000,
+                            numBytesRequested: 256 / 8));
+                    u.Clave = hashed;
+                    u.Rol = User.IsInRole("Administrador") ? u.Rol : (int)enRoles.Empleado;
+                    var nbreRnd = Guid.NewGuid();//posible nombre aleatorio
+                    int res = repositorio.Alta(u);
+                    if (u.AvatarFile != null && u.Id > 0)
                     {
-                        Directory.CreateDirectory(path);
+                        string wwwPath = environment.WebRootPath;
+                        string path = Path.Combine(wwwPath, "Uploads");
+                        if (!Directory.Exists(path))
+                        {
+                            Directory.CreateDirectory(path);
+                        }
+                        //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
+                        string fileName = "avatar_" + u.Id + Path.GetExtension(u.AvatarFile.FileName);
+                        string pathCompleto = Path.Combine(path, fileName);
+                        u.Avatar = Path.Combine("/Uploads", fileName);
+                        using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
+                        {
+                            u.AvatarFile.CopyTo(stream);
+                        }
+                        repositorio.Modificacion(u);
                     }
-                    //Path.GetFileName(u.AvatarFile.FileName);//este nombre se puede repetir
-                    string fileName = "avatar_" + u.Id + Path.GetExtension(u.AvatarFile.FileName);
-                    string pathCompleto = Path.Combine(path, fileName);
-                    u.Avatar = Path.Combine("/Uploads", fileName);
-                    using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
-                    {
-                        u.AvatarFile.CopyTo(stream);
-                    }
-                    repositorio.Modificacion(u);
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                string error=ex.Message;
-                ViewBag.Roles = Usuario.ObtenerRoles();
-                return View();
-            }
+                catch (Exception ex)
+                {
+                    string error = ex.Message;
+                    ViewBag.Roles = Usuario.ObtenerRoles();
+                    return View();
+                }
+            
+            
         }
 
         // GET: Usuarios/Edit/5

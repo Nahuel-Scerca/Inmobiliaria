@@ -39,7 +39,7 @@ namespace WebApplicationPrueba.Controllers
         }
        
         [Authorize]
-        public ActionResult indexPorContrato(int id)
+        public ActionResult IndexPorContrato(int id)
         {
             var lista = repositorio.BuscarPorContrato(id);
             if (TempData.ContainsKey("Id"))
