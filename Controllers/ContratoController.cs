@@ -40,7 +40,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
 
-        [Route("[controller]/BuscarPorFecha/{desde}/{hasta}", Name ="Buscar")]
+        [Route("[controller]/BuscarPorFecha/{desde}/{hasta}", Name ="BuscarPorFecha")]
         public IActionResult BuscarPorFecha(DateTime desde, DateTime hasta)
         {
             try

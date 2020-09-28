@@ -111,8 +111,37 @@
     {{#datos}}
     <tr>
         <td>{{id}}</td>
-        <td>{{FechaDesde}}</td>
-        <td>{{FechaHasta}}</td>
+        <td>{{fechaDesde}}</td>
+        <td>{{fechaHasta}}</td>
+
+
+        <td>
+            {{inquilino.nombre}}  {{Inquilino.apellido}}
+        </td>
+        <td>
+            {{inmueble.direccion}} Inmueble Nº: {{inmueble.id}}
+        </td>
+        <td>
+            {{inmueble.duenio.nombre}}  {{inmueble.duenio.apellido}}
+        </td>
+        <td>
+            {{precioMensual}}
+        </td>
+        <td>
+            <a href="Contrato/Edit/{{id}}" class="btn btn-outline-warning fa fa-pencil"></a>
+        </td>
+        <td>
+            <a href="Contrato/Details/{{id}}" class="btn btn-outline-primary fa  fa-info"></a>
+        </td>
+        <td>
+            <a href="Contrato/Delete/{{id}}" class="btn btn-outline-danger fa fa-trash"></a>
+        </td>
+        <td>
+            <a class="btn btn-outline-secondary" href="Pago/IndexPorContrato/{{id}}">Pagos del  contrato</a>
+        </td>
+        <td>
+            <a class="btn btn-outline-secondary" href="Pago/Create/{{id}}">Pagar Mensualidad de contrato</a>
+        </td>
     </tr>
 
     {{/datos}}
@@ -120,16 +149,18 @@
 
 @section Scripts{ 
     <script>
-        document.querySelector("#form-buscar").addEventListener("submit", (e) =>
-            e.preventDefault();
-        var desde = $('#desde').val();
-        var hasta = $('#hasta').val();
-        $get(`@Url.Action("BuscarPorFecha", "Contrato")/${desde}/${hasta}`).done((res) => {
-            console.log(res);
-            var template = document.getElementById('t_tabla').innerHTML;
-            var rendered = Mustache.render(template, res);
-            document.getElementById('resultado').innerHTML = rendered;
+        document.querySelector("#form-buscar").addEventListener("submit", (e) => {
 
+            e.preventDefault();
+            var desde = $('#desde').val();
+            var hasta = $('#hasta').val();
+            $.get(`@Url.Action("BuscarPorFecha", "Contrato")/${desde}/${hasta}`).done((res) => {
+                console.log(res);
+                var template = document.getElementById('t_tabla').innerHTML;
+                var rendered = Mustache.render(template, res);
+                document.getElementById('resultado').innerHTML = rendered;
+            });
+            return false;
         });
 
     </script>

@@ -238,8 +238,8 @@ namespace WebApplicationPrueba.Models
 
 				using (SqlCommand command = new SqlCommand(consultasql, connection))
 				{
-					command.Parameters.Add("@desde", SqlDbType.Int).Value = desde;
-					command.Parameters.Add("@hasta", SqlDbType.Int).Value = hasta;
+					command.Parameters.Add("@desde", SqlDbType.DateTime).Value = desde;
+					command.Parameters.Add("@hasta", SqlDbType.DateTime).Value = hasta;
 					command.CommandType = CommandType.Text;
 					connection.Open();
 					var reader = command.ExecuteReader();
