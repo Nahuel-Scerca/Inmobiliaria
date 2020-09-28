@@ -9,6 +9,20 @@
 <p>
     <a class="btn btn-outline-success" asp-action="Create">Crear Contrato</a>
 </p>
+
+<form id="form-buscar">
+    <div class="form-group">
+        <label for="desde" class="control-label"></label>
+        <input type="datetime" name="desde" class="form-control" placeholder="Buscar Desde" id="desde" />
+
+        <label for="hasta" class="control-label"></label>
+        <input type="datetime" name="hasta" class="form-control" placeholder="Buscar Hasta" id="hasta" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Buscar" class="btn btn-outline-primary" />
+    </div>
+</form>
+
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
@@ -41,7 +55,8 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="resultado">
+        
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -54,13 +69,13 @@
                 @Html.DisplayFor(modelItem => item.FechaHasta)
             </td>
             <td>
-                @(item.Inquilino.Nombre + " "+ item.Inquilino.Apellido)
+                @(item.Inquilino.Nombre + " " + item.Inquilino.Apellido)
             </td>
             <td>
                 @(item.Inmueble.Direccion + "  Inmueble Nº " + item.Inmueble.Id)
             </td>
             <td>
-                @(item.Inmueble.Duenio.Nombre + " "+ item.Inmueble.Duenio.Apellido)
+                @(item.Inmueble.Duenio.Nombre + " " + item.Inmueble.Duenio.Apellido)
 
             </td>
             <td>
@@ -87,3 +102,35 @@
 }
     </tbody>
 </table>
+
+
+
+
+<!--Scripts-->
+<script id="t_tabla" type="x-tmpl-mustache">
+    {{#datos}}
+    <tr>
+        <td>{{id}}</td>
+        <td>{{FechaDesde}}</td>
+        <td>{{FechaHasta}}</td>
+    </tr>
+
+    {{/datos}}
+</script>
+
+@section Scripts{ 
+    <script>
+        document.querySelector("#form-buscar").addEventListener("submit", (e) =>
+            e.preventDefault();
+        var desde = $('#desde').val();
+        var hasta = $('#hasta').val();
+        $get(`@Url.Action("BuscarPorFecha", "Contrato")/${desde}/${hasta}`).done((res) => {
+            console.log(res);
+            var template = document.getElementById('t_tabla').innerHTML;
+            var rendered = Mustache.render(template, res);
+            document.getElementById('resultado').innerHTML = rendered;
+
+        });
+
+    </script>
+}

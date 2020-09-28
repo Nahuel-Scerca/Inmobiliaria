@@ -39,8 +39,24 @@ namespace WebApplicationPrueba.Controllers
             return View(lista);
         }
 
-        // GET: ContratoController/Details/5
-        [Authorize]
+
+        [Route("[controller]/BuscarPorFecha/{desde}/{hasta}", Name ="Buscar")]
+        public IActionResult BuscarPorFecha(DateTime desde, DateTime hasta)
+        {
+            try
+            {
+                var res = repositorio.ObtenerPorFecha(desde,hasta);
+                return Json(new {Datos=res});
+            }
+            catch (Exception ex)
+            {
+                return Json(new {Error= ex.Message });
+            }
+        }
+
+
+            // GET: ContratoController/Details/5
+            [Authorize]
         public ActionResult Details(int id)
         {
             var entidad = repositorio.ObtenerPorId(id);

@@ -7,6 +7,9 @@ namespace WebApplicationPrueba.Models
 {
 	public interface IRepositorioContrato : IRepositorio<Contrato>
 	{
-	// agregar clases queq uiera
-    }
+		// agregar clases queq uiera
+
+		public IList<Contrato> ObtenerPorFecha(DateTime desde, DateTime hasta);
+
+	}
 }

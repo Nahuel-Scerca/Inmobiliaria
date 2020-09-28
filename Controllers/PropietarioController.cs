@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using WebApplicationPrueba.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Inmobiliaria_.Net_Core.Controllers
+namespace WebApplicationPrueba.Controllers
 {
     public class PropietariosController : Controller
     {

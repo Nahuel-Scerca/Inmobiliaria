@@ -215,5 +215,72 @@ namespace WebApplicationPrueba.Models
 		}
 
 
-	}
+
+        public IList<Contrato> ObtenerPorFecha(DateTime desde, DateTime hasta)
+        {
+			IList<Contrato> res = new List<Contrato>();
+
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+
+				//sql funcional
+				string consultasql = "SELECT c.Id, FechaDesde, FechaHasta, InquilinoId, InmuebleId," +
+					" i.Nombre AS InquilinoNombre,i.Apellido AS InquilinoApellido," +
+					"inm.Direccion, inm.PropietarioId,p.Nombre AS PropietarioNombre ," +
+					 "p.Apellido AS PropietarioApellido , c.PrecioMensual" +
+					 " FROM Contratos c " +
+					 " INNER JOIN Inquilinos i ON i.Id = c.InquilinoId" +
+					 " INNER JOIN Inmuebles inm ON inm.Id = c.InmuebleId" +
+					 " INNER JOIN Propietarios p ON inm.PropietarioId = p.Id "+
+					 " WHERE "+
+					 "CAST(c.FechaDesde AS datetime) >  CAST(@desde AS datetime)"+
+					 " AND CAST(c.FechaHasta AS datetime) < CAST(@hasta AS datetime)";
+
+				using (SqlCommand command = new SqlCommand(consultasql, connection))
+				{
+					command.Parameters.Add("@desde", SqlDbType.Int).Value = desde;
+					command.Parameters.Add("@hasta", SqlDbType.Int).Value = hasta;
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+					while (reader.Read())
+					{
+						Contrato contrato = new Contrato
+						{
+							Id = reader.GetInt32(0),
+							FechaDesde = reader.GetDateTime(1),
+							FechaHasta = reader.GetDateTime(2),
+							InquilinoId = reader.GetInt32(3),
+							InmuebleId = reader.GetInt32(4),
+							PrecioMensual = reader.GetDecimal(11),
+
+							Inquilino = new Inquilino
+							{
+								Id = reader.GetInt32(3),
+								Nombre = reader.GetString(5),
+								Apellido = reader.GetString(6),
+							},
+
+							Inmueble = new Inmueble
+							{
+								Id = reader.GetInt32(4),
+								Direccion = reader.GetString(7),
+								PropietarioId = reader.GetInt32(8),
+
+								Duenio = new Propietario
+								{
+									Id = reader.GetInt32(8),
+									Nombre = reader.GetString(9),
+									Apellido = reader.GetString(10),
+								}
+							}
+						};
+						res.Add(contrato);
+					}
+					connection.Close();
+				}
+			}
+			return res;
+		}
+    }
 }
