@@ -66,7 +66,7 @@ namespace Inmobiliaria_.Net_Core.Controllers
 
 
         // GET: Propietario/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -75,7 +75,7 @@ namespace Inmobiliaria_.Net_Core.Controllers
         // POST: Propietario/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Create(Propietario propietario)
         {
             try
@@ -104,7 +104,7 @@ namespace Inmobiliaria_.Net_Core.Controllers
         }
 
         // GET: Propietario/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Edit(int id)
         {
 
@@ -127,7 +127,7 @@ namespace Inmobiliaria_.Net_Core.Controllers
         // POST: Propietario/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Edit(int id, IFormCollection collection)
         {
             Propietario p = null;

@@ -30,7 +30,7 @@ namespace WebApplicationPrueba.Models
             this.repositorio = repositorio;
         }
         // GET: Usuarios
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Index()
         {
             var usuarios = repositorio.ObtenerTodos();
@@ -46,7 +46,7 @@ namespace WebApplicationPrueba.Models
         }
 
         // GET: Usuarios/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.Roles = Usuario.ObtenerRoles();
@@ -56,7 +56,7 @@ namespace WebApplicationPrueba.Models
         // POST: Usuarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Create(Usuario u)
         {
             if (!ModelState.IsValid)
@@ -71,7 +71,7 @@ namespace WebApplicationPrueba.Models
                             iterationCount: 1000,
                             numBytesRequested: 256 / 8));
                     u.Clave = hashed;
-                    u.Rol = User.IsInRole("Administrador") ? u.Rol : (int)enRoles.Empleado;
+                    u.Rol = User.IsInRole("Administrador")|| User.IsInRole("SuperAdministrador") ? u.Rol : (int)enRoles.Empleado;
                     var nbreRnd = Guid.NewGuid();//posible nombre aleatorio
                     int res = repositorio.Alta(u);
                     if (u.AvatarFile != null && u.Id > 0)
@@ -115,7 +115,7 @@ namespace WebApplicationPrueba.Models
         }
 
         // GET: Usuarios/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Edit(int id)
         {
             ViewData["Title"] = "Editar usuario";
@@ -155,7 +155,8 @@ namespace WebApplicationPrueba.Models
         [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
-            return View();
+            repositorio.Baja(id);
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Usuarios/Delete/5

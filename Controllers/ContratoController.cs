@@ -48,7 +48,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: ContratoController/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.Inquilinos = repoInquilinos.ObtenerTodos();
@@ -57,7 +57,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: ContratoController/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Contrato contrato)
@@ -86,7 +86,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: ContratoController/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var entidad = repositorio.ObtenerPorId(id);
@@ -100,7 +100,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: ContratoController/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Contrato entidad)

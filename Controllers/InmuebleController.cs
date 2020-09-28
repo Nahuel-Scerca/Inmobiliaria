@@ -45,7 +45,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inmueble/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.Propietarios = repoPropietario.ObtenerTodos();
@@ -54,7 +54,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: Inmueble/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Inmueble entidad)
@@ -82,7 +82,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inmueble/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var entidad = repositorio.ObtenerPorId(id);
@@ -96,7 +96,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: Inmueble/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Inmueble entidad)

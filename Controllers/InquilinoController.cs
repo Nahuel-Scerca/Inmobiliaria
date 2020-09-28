@@ -37,7 +37,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inquilino/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -46,7 +46,7 @@ namespace WebApplicationPrueba.Controllers
         // POST: Inquilino/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Create(Inquilino inquilino)
         {
             try
@@ -67,7 +67,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: Inquilino/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Edit(int id)
         {
             try
@@ -87,7 +87,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: Inquilino/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)

@@ -58,7 +58,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: PagoController/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Create(int id)
         {
             
@@ -68,7 +68,7 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // POST: PagoController/Create
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Pago pago)
@@ -96,14 +96,14 @@ namespace WebApplicationPrueba.Controllers
         }
 
         // GET: PagoController/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         public ActionResult Edit(int id)
         {
             return View();
         }
 
         // POST: PagoController/Edit/5
-        [Authorize(Policy = "Administrador")]
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
