@@ -11,5 +11,7 @@ namespace WebApplicationPrueba.Models
 
 		public IList<Contrato> ObtenerPorFecha(DateTime desde, DateTime hasta);
 
+		public IList<Contrato> ObtenerTodos(int id);
+
 	}
 }

@@ -36,6 +36,32 @@ namespace WebApplicationPrueba.Controllers
             return View(lista);
         }
 
+        [Authorize]
+        public ActionResult IndexPorPropietario(int id)
+        {
+            var lista = repositorio.BuscarPorPropietario(id);
+            if (TempData.ContainsKey("Id"))
+                ViewBag.Id = TempData["Id"];
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            return View("Index", lista);
+        }
+
+        [Authorize]
+        [Route("[controller]/BuscarDisponibles/{estado}", Name = "BuscarDisponibles")]
+        public IActionResult BuscarDisponibles(Boolean estado)
+        {
+            try
+            {
+                var res = repositorio.ObtenerTodos(estado);
+                return Json(new { Datos = res });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
+        }
+
         // GET: Inmueble/Details/5
         [Authorize]
         public ActionResult Details(int id)

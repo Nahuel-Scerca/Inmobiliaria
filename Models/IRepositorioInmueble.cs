@@ -8,5 +8,6 @@ namespace WebApplicationPrueba.Models
 	public interface IRepositorioInmueble : IRepositorio<Inmueble>
 	{
 		IList<Inmueble> BuscarPorPropietario(int idPropietario);
-    }
+		IList<Inmueble> ObtenerTodos(Boolean estado);
+	}
 }

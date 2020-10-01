@@ -39,7 +39,18 @@ namespace WebApplicationPrueba.Controllers
             return View(lista);
         }
 
+        [Authorize]
+        public ActionResult IndexPorInmueble(int id)
+        {
+            var lista = repositorio.ObtenerTodos(id);
+            if (TempData.ContainsKey("Id"))
+                ViewBag.Id = TempData["Id"];
+            if (TempData.ContainsKey("Mensaje"))
+                ViewBag.Mensaje = TempData["Mensaje"];
+            return View("Index", lista);
+        }
 
+        [Authorize]
         [Route("[controller]/BuscarPorFecha/{desde}/{hasta}", Name ="BuscarPorFecha")]
         public IActionResult BuscarPorFecha(DateTime desde, DateTime hasta)
         {

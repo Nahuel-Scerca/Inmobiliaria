@@ -90,7 +90,7 @@ namespace WebApplicationPrueba.Models
 			return res;
 		}
 
-		public IList<Inmueble> ObtenerTodos()
+		public IList<Inmueble> ObtenerTodos(Boolean estado)
 		{
 			IList<Inmueble> res = new List<Inmueble>();
 			using (SqlConnection connection = new SqlConnection(connectionString))
@@ -98,6 +98,10 @@ namespace WebApplicationPrueba.Models
 				string sql = "SELECT i.Id, Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId," +
 					" p.Nombre, p.Apellido, Tipo, Uso, Precio, Estado" +
 					" FROM Inmuebles i INNER JOIN Propietarios p ON i.PropietarioId = p.Id";
+                if (estado)
+                {
+					sql = sql + " WHERE i.Estado=1";
+                }
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.CommandType = CommandType.Text;
@@ -182,9 +186,9 @@ namespace WebApplicationPrueba.Models
 			Inmueble entidad = null;
 			using (SqlConnection connection = new SqlConnection(connectionString))
 			{
-				string sql = $"SELECT Id, Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId, p.Nombre, p.Apellido, Tipo, Uso, Precio, Estado" +
+				string sql = $"SELECT i.Id, Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId, p.Nombre, p.Apellido, Tipo, Uso, Precio, Estado" +
 					$" FROM Inmuebles i INNER JOIN Propietarios p ON i.PropietarioId = p.Id" +
-					$" WHERE PropietarioId=@idPropietario";
+					$" WHERE i.PropietarioId=@idPropietario";
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
 					command.Parameters.Add("@idPropietario", SqlDbType.Int).Value = idPropietario;
@@ -220,5 +224,10 @@ namespace WebApplicationPrueba.Models
 			}
 			return res;
 		}
-	}
+
+        public IList<Inmueble> ObtenerTodos()
+        {
+			return ObtenerTodos(false);
+        }
+    }
 }

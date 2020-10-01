@@ -11,16 +11,29 @@
 </p>
 
 <form id="form-buscar">
-    <div class="form-group">
-        <label for="desde" class="control-label"></label>
-        <input type="datetime" name="desde" class="form-control" placeholder="Buscar Desde" id="desde" />
+    
+    <div class="row align-self-center">
+        <div class="col-4">
+            <div class="form-group">
 
-        <label for="hasta" class="control-label"></label>
-        <input type="datetime" name="hasta" class="form-control" placeholder="Buscar Hasta" id="hasta" />
+                <label for="desde" class="control-label"></label>
+                <input type="date" name="desde" class="form-control" placeholder="Buscar Desde" id="desde" />
+                <span>
+                    <label for="hasta" class="control-label"></label>
+                    <input type="date" name="hasta" class="form-control" placeholder="Buscar Hasta" id="hasta" />
+                </span>
+                <div class="form-group mt-2 justify-content-xl-center">
+                    <input type="submit" value="Buscar" class="btn btn-outline-primary" />
+                </div>
+            </div>
+        </div>
+        <div class="col-3 ">
+            
+        </div>
+        
+       
     </div>
-    <div class="form-group">
-        <input type="submit" value="Buscar" class="btn btn-outline-primary" />
-    </div>
+ 
 </form>
 
 <table class="table table-striped table-bordered table-hover">
@@ -93,10 +106,10 @@
                 @Html.ActionLink("", "Delete", new { id = item.Id }, new { @class = "btn btn-outline-danger fa fa-trash" })
             </td>
             <td>
-                <a class="btn btn-outline-secondary" asp-controller="Pago" asp-action="IndexPorContrato" asp-route-id="@item.Id" title="Pagos">Pagos del  contrato</a>
+                <a class="btn btn-outline-secondary" asp-controller="Pago" asp-action="IndexPorContrato" asp-route-id="@item.Id" title="Pagos del contrato"><i class="fa fa-files-o"></i><i class="fa fa-eye"></i></a>
             </td>
             <td>
-                <a class="btn btn-outline-secondary" asp-controller="Pago" asp-action="Create" asp-route-id="@item.Id" title="Crear">Pagar Mensualidad de contrato</a>
+                <a class="btn btn-outline-secondary" asp-controller="Pago" asp-action="Create" asp-route-id="@item.Id" title="Crear Pago"><i class="fa fa-money"></i><i class="fa fa-plus"></i></a>
             </td>
         </tr>
 }
@@ -137,10 +150,10 @@
             <a href="Contrato/Delete/{{id}}" class="btn btn-outline-danger fa fa-trash"></a>
         </td>
         <td>
-            <a class="btn btn-outline-secondary" href="Pago/IndexPorContrato/{{id}}">Pagos del  contrato</a>
+            <a class="btn btn-outline-secondary" href="Pago/IndexPorContrato/{{id}}" name="Pagos del contrato"><i class="fa fa-files-o"></i><i class="fa fa-eye"></a>
         </td>
         <td>
-            <a class="btn btn-outline-secondary" href="Pago/Create/{{id}}">Pagar Mensualidad de contrato</a>
+            <a class="btn btn-outline-secondary" href="Pago/Create/{{id}}" name="Crear Pago"><i class="fa fa-money"></i><i class="fa fa-plus"></i></a>
         </td>
     </tr>
 

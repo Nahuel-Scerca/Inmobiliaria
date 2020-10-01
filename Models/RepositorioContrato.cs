@@ -89,7 +89,7 @@ namespace WebApplicationPrueba.Models
 		}
 
 
-		public IList<Contrato> ObtenerTodos()
+		public IList<Contrato> ObtenerTodos(int id)
 		{
 			IList<Contrato> res = new List<Contrato>();
 
@@ -105,9 +105,18 @@ namespace WebApplicationPrueba.Models
 					 " INNER JOIN Inquilinos i ON i.Id = c.InquilinoId"+
 					 " INNER JOIN Inmuebles inm ON inm.Id = c.InmuebleId"+
 					 " INNER JOIN Propietarios p ON inm.PropietarioId = p.Id";
+				if (id>0)
+				{
+					consultasql = consultasql + " WHERE c.InmuebleId=@id";
+				}
 
 				using (SqlCommand command = new SqlCommand(consultasql, connection))
 				{
+                    if (id > 0)
+                    {
+						command.Parameters.Add("@id", SqlDbType.Int).Value = id;
+					}
+					
 					command.CommandType = CommandType.Text;
 					connection.Open();
 					var reader = command.ExecuteReader();
@@ -281,6 +290,11 @@ namespace WebApplicationPrueba.Models
 				}
 			}
 			return res;
+		}
+
+        public IList<Contrato> ObtenerTodos()
+        {
+			return ObtenerTodos(0);
 		}
     }
 }
