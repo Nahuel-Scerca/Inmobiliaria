@@ -9,5 +9,7 @@ namespace WebApplicationPrueba.Models
 	{
 		IList<Inmueble> BuscarPorPropietario(int idPropietario);
 		IList<Inmueble> ObtenerTodos(Boolean estado);
+
+		public IList<Inmueble> ObtenerPorFecha(DateTime desde, DateTime hasta);
 	}
 }

@@ -48,6 +48,21 @@ namespace WebApplicationPrueba.Controllers
         }
 
         [Authorize]
+        [Route("[controller]/BuscarInmueblePorFecha/{desde}/{hasta}", Name = "BuscarInmueblePorFecha")]
+        public IActionResult BuscarInmueblePorFecha(DateTime desde, DateTime hasta)
+        {
+            try
+            {
+                var res = repositorio.ObtenerPorFecha(desde, hasta);
+                return Json(new { Datos = res });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Error = ex.Message });
+            }
+        }
+
+        [Authorize]
         [Route("[controller]/BuscarDisponibles/{estado}", Name = "BuscarDisponibles")]
         public IActionResult BuscarDisponibles(Boolean estado)
         {

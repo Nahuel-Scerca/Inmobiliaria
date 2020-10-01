@@ -46,6 +46,7 @@ namespace WebApplicationPrueba.Controllers
                 ViewBag.Id = TempData["Id"];
             if (TempData.ContainsKey("Mensaje"))
                 ViewBag.Mensaje = TempData["Mensaje"];
+            ViewBag.Contrato = repositorioContrato.ObtenerPorId(id);
             return View(lista);
         }
 

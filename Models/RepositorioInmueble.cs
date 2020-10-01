@@ -100,7 +100,7 @@ namespace WebApplicationPrueba.Models
 					" FROM Inmuebles i INNER JOIN Propietarios p ON i.PropietarioId = p.Id";
                 if (estado)
                 {
-					sql = sql + " WHERE i.Estado=1";
+					sql = sql + " WHERE i.Estado=1  AND i.Id NOT IN (SELECT InmuebleId FROM Contratos);";
                 }
 				using (SqlCommand command = new SqlCommand(sql, connection))
 				{
@@ -180,6 +180,8 @@ namespace WebApplicationPrueba.Models
 			return entidad;
 		}
 
+
+
 		public IList<Inmueble> BuscarPorPropietario(int idPropietario)
 		{
 			List<Inmueble> res = new List<Inmueble>();
@@ -229,5 +231,60 @@ namespace WebApplicationPrueba.Models
         {
 			return ObtenerTodos(false);
         }
+
+        public IList<Inmueble> ObtenerPorFecha(DateTime desde, DateTime hasta)
+        {
+
+			IList<Inmueble> res = new List<Inmueble>();
+			using (SqlConnection connection = new SqlConnection(connectionString))
+			{
+				string sql = "SELECT i.Id, Direccion, Ambientes, Superficie, Latitud, Longitud, PropietarioId," +
+					" p.Nombre, p.Apellido, Tipo, Uso, Precio, Estado" +
+					" FROM Inmuebles i INNER JOIN Propietarios p ON i.PropietarioId = p.Id"+
+					" INNER JOIN Contratos c ON i.Id = c.InmuebleId " +
+					" WHERE i.Id " +
+
+					" NOT IN (SELECT c.InmuebleId" +
+					" FROM Inmuebles i INNER JOIN Propietarios p ON i.PropietarioId = p.Id" +
+					" INNER JOIN Contratos c ON i.Id = c.InmuebleId"+
+
+					" WHERE (@desde BETWEEN c.FechaDesde AND  c.FechaHasta or @hasta BETWEEN c.FechaDesde AND c.FechaHasta) OR (@desde < c.FechaDesde AND @hasta > c.FechaHasta) )";
+				
+				using (SqlCommand command = new SqlCommand(sql, connection))
+				{
+					command.Parameters.Add("@desde", SqlDbType.DateTime).Value = desde;
+					command.Parameters.Add("@hasta", SqlDbType.DateTime).Value = hasta;
+					command.CommandType = CommandType.Text;
+					connection.Open();
+					var reader = command.ExecuteReader();
+					while (reader.Read())
+					{
+						Inmueble entidad = new Inmueble
+						{
+							Id = reader.GetInt32(0),
+							Direccion = reader.GetString(1),
+							Ambientes = reader.GetInt32(2),
+							Superficie = reader.GetInt32(3),
+							Latitud = reader.GetDecimal(4),
+							Longitud = reader.GetDecimal(5),
+							PropietarioId = reader.GetInt32(6),
+							Tipo = reader.GetString(9),
+							Uso = reader.GetString(10),
+							Precio = reader.GetDecimal(11),
+							Estado = reader.GetInt32(12),
+							Duenio = new Propietario
+							{
+								Id = reader.GetInt32(6),
+								Nombre = reader.GetString(7),
+								Apellido = reader.GetString(8),
+							}
+						};
+						res.Add(entidad);
+					}
+					connection.Close();
+				}
+			}
+			return res;
+		}
     }
 }
