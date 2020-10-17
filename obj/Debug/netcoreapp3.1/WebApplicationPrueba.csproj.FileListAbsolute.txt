@@ -280,8 +280,6 @@ C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\runtimes\w
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.csproj.CoreCompileInputs.cache
-C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Login.cshtml.g.cs
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\Edit.cshtml.g.cs
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\Index.cshtml.g.cs
@@ -294,3 +292,5 @@ C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\View
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Pago\Create.cshtml.g.cs
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Pago\IndexPorContrato.cshtml.g.cs
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\Create.cshtml.g.cs
+C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.csproj.CoreCompileInputs.cache
+C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.MvcApplicationPartsAssemblyInfo.cache
