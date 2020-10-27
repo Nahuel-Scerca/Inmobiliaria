@@ -49,6 +49,30 @@ namespace WebApplicationPrueba.Api
             }
         }
 
+
+        // GET: api/<controller>
+        [HttpGet]
+        public async Task<IActionResult> GetPorContrato()
+        {
+            try
+            {
+                /*contexto.Inmuebles
+                    .Include(x => x.Duenio)
+                    .Where(x => x.Duenio.Nombre == "")//.ToList() => lista de inmuebles
+                    .Select(x => x.Duenio)
+                    .ToList();//lista de propietarios*/
+
+
+                var usuario = User.Identity.Name;
+                var res = contexto.Propietarios.Select(x => new { x.Nombre, x.Apellido, x.Email }).SingleOrDefault(x => x.Email == usuario);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

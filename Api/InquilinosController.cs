@@ -11,11 +11,11 @@ namespace WebApplicationPrueba.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InquilinoController : ControllerBase
+    public class InquilinosController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public InquilinoController(DataContext context)
+        public InquilinosController(DataContext context)
         {
             _context = context;
         }
