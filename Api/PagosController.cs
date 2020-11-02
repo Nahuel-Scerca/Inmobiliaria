@@ -24,14 +24,14 @@ namespace WebApplicationPrueba.Api
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pago>>> GetPago()
         {
-            return await _context.Pago.ToListAsync();
+            return await _context.Pagos.ToListAsync();
         }
 
         // GET: api/Pagoes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Pago>> GetPago(int id)
         {
-            var pago = await _context.Pago.FindAsync(id);
+            var pago = await _context.Pagos.FindAsync(id);
 
             if (pago == null)
             {
@@ -79,7 +79,7 @@ namespace WebApplicationPrueba.Api
         [HttpPost]
         public async Task<ActionResult<Pago>> PostPago(Pago pago)
         {
-            _context.Pago.Add(pago);
+            _context.Pagos.Add(pago);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetPago", new { id = pago.Id }, pago);
@@ -89,13 +89,13 @@ namespace WebApplicationPrueba.Api
         [HttpDelete("{id}")]
         public async Task<ActionResult<Pago>> DeletePago(int id)
         {
-            var pago = await _context.Pago.FindAsync(id);
+            var pago = await _context.Pagos.FindAsync(id);
             if (pago == null)
             {
                 return NotFound();
             }
 
-            _context.Pago.Remove(pago);
+            _context.Pagos.Remove(pago);
             await _context.SaveChangesAsync();
 
             return pago;
@@ -103,7 +103,7 @@ namespace WebApplicationPrueba.Api
 
         private bool PagoExists(int id)
         {
-            return _context.Pago.Any(e => e.Id == id);
+            return _context.Pagos.Any(e => e.Id == id);
         }
     }
 }

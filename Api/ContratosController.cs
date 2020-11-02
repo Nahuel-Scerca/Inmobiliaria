@@ -24,14 +24,28 @@ namespace WebApplicationPrueba.Api
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contrato>>> GetContrato()
         {
-            return await _context.Contrato.ToListAsync();
+            return await _context.Contratos.ToListAsync();
+        }
+
+        // GET: api/Contratoes
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Contrato>>> GetContratoPorInmueble(int id)
+        {
+            var contratos = await _context.Contratos.Where(x => x.InmuebleId == id).ToListAsync();
+
+            if (contratos ==null)
+            {
+                return NotFound();
+            }
+
+            return contratos;
         }
 
         // GET: api/Contratoes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Contrato>> GetContrato(int id)
         {
-            var contrato = await _context.Contrato.FindAsync(id);
+            var contrato = await _context.Contratos.FindAsync(id);
 
             if (contrato == null)
             {
@@ -79,7 +93,7 @@ namespace WebApplicationPrueba.Api
         [HttpPost]
         public async Task<ActionResult<Contrato>> PostContrato(Contrato contrato)
         {
-            _context.Contrato.Add(contrato);
+            _context.Contratos.Add(contrato);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetContrato", new { id = contrato.Id }, contrato);
@@ -89,13 +103,13 @@ namespace WebApplicationPrueba.Api
         [HttpDelete("{id}")]
         public async Task<ActionResult<Contrato>> DeleteContrato(int id)
         {
-            var contrato = await _context.Contrato.FindAsync(id);
+            var contrato = await _context.Contratos.FindAsync(id);
             if (contrato == null)
             {
                 return NotFound();
             }
 
-            _context.Contrato.Remove(contrato);
+            _context.Contratos.Remove(contrato);
             await _context.SaveChangesAsync();
 
             return contrato;
@@ -103,7 +117,7 @@ namespace WebApplicationPrueba.Api
 
         private bool ContratoExists(int id)
         {
-            return _context.Contrato.Any(e => e.Id == id);
+            return _context.Contratos.Any(e => e.Id == id);
         }
     }
 }
