@@ -143,9 +143,10 @@ namespace WebApplicationPrueba.Api
     }
 
     // DELETE api/<controller>/5
-    [HttpDelete("{id}")]
+    [HttpDelete]
         public void Delete(int id)
         {
+            
         }
 
         // GET: api/<controller>
