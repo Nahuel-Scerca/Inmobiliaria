@@ -34,10 +34,12 @@ namespace WebApplicationPrueba.Models
         public decimal Precio { get; set; }
         [Required]
         public int Estado { get; set; }
-        [Display(Name = "Dueño")]
+        //[Display(Name = "Dueño")]
         public int PropietarioId { get; set; }
-        [ForeignKey("PropietarioId")]
+        //[ForeignKey("PropietarioId")]
         public Propietario Duenio { get; set; }
+
+        public string Foto { get; set; }
 
 
         [Display(Name = "Estado")]

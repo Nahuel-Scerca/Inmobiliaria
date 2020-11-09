@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebApplicationPrueba
 {
@@ -36,6 +37,19 @@ namespace WebApplicationPrueba
                     options.LoginPath = "/Usuarios/Login";
                     options.LogoutPath = "/Usuarios/Logout";
                     options.AccessDeniedPath = "/Home/Restringido";
+                })
+                .AddJwtBearer(options =>//la api web valida con token
+                {
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = configuration["TokenAuthentication:Issuer"],
+                        ValidAudience = configuration["TokenAuthentication:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(configuration["TokenAuthentication:SecretKey"])),
+                    };
                 });
 
             services.AddAuthorization(options =>
@@ -67,7 +81,11 @@ namespace WebApplicationPrueba
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
+            // Habilitar CORS
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             // Uso de archivos estáticos (*.html, *.css, *.js, etc.)
             app.UseStaticFiles();
             app.UseRouting();

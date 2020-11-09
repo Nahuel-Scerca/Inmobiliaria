@@ -10,13 +10,15 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApplicationPrueba.Api
 {
     [Route("api/[controller]")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class PropietariosController : Controller
     {
@@ -40,7 +42,7 @@ namespace WebApplicationPrueba.Api
                     .Select(x => x.Duenio)
                     .ToList();//lista de propietarios*/
                 var usuario = User.Identity.Name;
-                var res = contexto.Propietarios.Select(x => new  {x.Nombre, x.Apellido, x.Email }).SingleOrDefault(x => x.Email == usuario);
+                var res = contexto.Propietarios.SingleOrDefault(x => x.Email == usuario);
                 return Ok(res);
             }
             catch (Exception ex)
@@ -50,47 +52,12 @@ namespace WebApplicationPrueba.Api
         }
 
 
-        // GET: api/<controller>
-        [HttpGet]
-        public async Task<IActionResult> GetPorContrato()
-        {
-            try
-            {
-                /*contexto.Inmuebles
-                    .Include(x => x.Duenio)
-                    .Where(x => x.Duenio.Nombre == "")//.ToList() => lista de inmuebles
-                    .Select(x => x.Duenio)
-                    .ToList();//lista de propietarios*/
 
-
-                var usuario = User.Identity.Name;
-                var res = contexto.Propietarios.Select(x => new { x.Nombre, x.Apellido, x.Email }).SingleOrDefault(x => x.Email == usuario);
-                return Ok(res);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            try
-            {
-                return Ok(contexto.Propietarios.SingleOrDefault(x => x.Id == id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
 
         // GET api/<controller>/5
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginView loginView)
+        public async Task<IActionResult> Login([FromForm]LoginView loginView)
         {
             try
             {
@@ -152,15 +119,31 @@ namespace WebApplicationPrueba.Api
             }
         }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // PUT api/<controller>
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]Propietario propietario)
         {
-            //contexto.Propietarios.Update()
-        }
+            var usuario = User.Identity.Name;
+            
+            try
+            {
+                if (contexto.Propietarios.AsNoTracking().FirstOrDefault(propietario => propietario.Email == User.Identity.Name) != null)
+                {
+                    contexto.Propietarios.Update(propietario);
+                    contexto.SaveChanges();
+                    return Ok(propietario);
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
 
-        // DELETE api/<controller>/5
-        [HttpDelete("{id}")]
+    }
+
+    // DELETE api/<controller>/5
+    [HttpDelete("{id}")]
         public void Delete(int id)
         {
         }

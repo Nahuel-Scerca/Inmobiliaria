@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "8KZYHqZMYy3zw2QbP3ZUr8FZrlmh63rQyaB8k+DcsXJ478+kbaSlxjcTxbXvQ9cm2yxGo3lFPphCbUERiq1vKw==",
+  "dgSpecHash": "1Ztbgf09AVXvLGOEmgXf83DtP4mHN+56Me08dDh1CAk3VSURPwBy+lxLAjaINM/0GY/MXyU/dEsx6uTZICTQ1A==",
   "success": true,
   "projectFilePath": "C:\\Users\\Nahuel\\Documents\\GitHub\\Inmobiliaria\\WebApplicationPrueba.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Nahuel\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.1.9\\microsoft.aspnetcore.authentication.jwtbearer.3.1.9.nupkg.sha512",
     "C:\\Users\\Nahuel\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Nahuel\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
     "C:\\Users\\Nahuel\\.nuget\\packages\\microsoft.aspnetcore.razor.language\\3.1.0\\microsoft.aspnetcore.razor.language.3.1.0.nupkg.sha512",

@@ -4,13 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApplicationPrueba.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApplicationPrueba.Api
 {
     [Route("api/[controller]")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class InmueblesController : Controller
     {
         private readonly DataContext contexto;
@@ -74,20 +76,18 @@ namespace WebApplicationPrueba.Api
             }
         }
 
-        // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, Inmueble entidad)
+        // PUT api/<controller>
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody]Inmueble inmueble)
         {
+            
+
             try
             {
-                if (ModelState.IsValid && contexto.Inmuebles.AsNoTracking().Include(e=>e.Duenio).FirstOrDefault(e => e.Id == id && e.Duenio.Email == User.Identity.Name) != null)
-                {
-                    entidad.Id = id;
-                    contexto.Inmuebles.Update(entidad);
+                    contexto.Inmuebles.Update(inmueble);
                     contexto.SaveChanges();
-                    return Ok(entidad);
-                }
-                return BadRequest();
+                    return Ok(inmueble);
+             
             }
             catch (Exception ex)
             {

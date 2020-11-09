@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,42 +12,54 @@ using WebApplicationPrueba.Models;
 namespace WebApplicationPrueba.Api
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class ContratosController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly DataContext contexto;
 
         public ContratosController(DataContext context)
         {
-            _context = context;
+            contexto = context;
         }
 
         // GET: api/Contratoes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contrato>>> GetContrato()
         {
-            return await _context.Contratos.ToListAsync();
+            return await contexto.Contratos.ToListAsync();
         }
 
         // GET: api/Contratoes
-        [HttpGet("{id}")]
+        [HttpGet("Inmueble/{id}")]
         public async Task<ActionResult<IEnumerable<Contrato>>> GetContratoPorInmueble(int id)
         {
-            var contratos = await _context.Contratos.Where(x => x.InmuebleId == id).ToListAsync();
-
-            if (contratos ==null)
+            try
             {
-                return NotFound();
-            }
+                var contrato = await contexto.Contratos
+                .Include(contrato => contrato.Inmueble)
+                .Include(contrato => contrato.Inquilino)
+                .Include(contrato => contrato.Inmueble.Duenio)
+                .Where(contrato => contrato.InmuebleId == id && contrato.FechaDesde <= DateTime.Now && contrato.FechaHasta >= DateTime.Now && contrato.Inmueble.Duenio.Email == User.Identity.Name)
+                .FirstOrDefaultAsync();
+                if (contrato == null || contrato.Inmueble.Duenio.Email != User.Identity.Name)
+                {
+                    return NotFound("No hay ningun contrato");
+                }
 
-            return contratos;
+                return Ok(contrato);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // GET: api/Contratoes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Contrato>> GetContrato(int id)
         {
-            var contrato = await _context.Contratos.FindAsync(id);
+            var contrato = await contexto.Contratos.FindAsync(id);
 
             if (contrato == null)
             {
@@ -66,11 +80,11 @@ namespace WebApplicationPrueba.Api
                 return BadRequest();
             }
 
-            _context.Entry(contrato).State = EntityState.Modified;
+            contexto.Entry(contrato).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await contexto.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -93,8 +107,8 @@ namespace WebApplicationPrueba.Api
         [HttpPost]
         public async Task<ActionResult<Contrato>> PostContrato(Contrato contrato)
         {
-            _context.Contratos.Add(contrato);
-            await _context.SaveChangesAsync();
+            contexto.Contratos.Add(contrato);
+            await contexto.SaveChangesAsync();
 
             return CreatedAtAction("GetContrato", new { id = contrato.Id }, contrato);
         }
@@ -103,21 +117,21 @@ namespace WebApplicationPrueba.Api
         [HttpDelete("{id}")]
         public async Task<ActionResult<Contrato>> DeleteContrato(int id)
         {
-            var contrato = await _context.Contratos.FindAsync(id);
+            var contrato = await contexto.Contratos.FindAsync(id);
             if (contrato == null)
             {
                 return NotFound();
             }
 
-            _context.Contratos.Remove(contrato);
-            await _context.SaveChangesAsync();
+            contexto.Contratos.Remove(contrato);
+            await contexto.SaveChangesAsync();
 
             return contrato;
         }
 
         private bool ContratoExists(int id)
         {
-            return _context.Contratos.Any(e => e.Id == id);
+            return contexto.Contratos.Any(e => e.Id == id);
         }
     }
 }

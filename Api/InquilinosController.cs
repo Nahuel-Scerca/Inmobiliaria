@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,28 +12,79 @@ using WebApplicationPrueba.Models;
 namespace WebApplicationPrueba.Api
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class InquilinosController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly DataContext contexto;
 
         public InquilinosController(DataContext context)
         {
-            _context = context;
+            contexto = context;
         }
 
         // GET: api/Inquilino
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Inquilino>>> Get()
         {
-            return await _context.Inquilinos.ToListAsync();
+
+            try
+            {
+                var inquilinos = await contexto.Contratos
+                    .Include(contrato => contrato.Inmueble)
+                    .ThenInclude(inmueble => inmueble.Duenio)
+                    .Include(contrato => contrato.Inquilino)
+                    .Where(contrato => contrato.Inmueble.Duenio.Email == User.Identity.Name)
+                    .Select(contrato=> contrato.Inquilino)
+                    .ToListAsync();
+
+                if (inquilinos == null)
+                {
+                    return NotFound("No hay ningun inquilino");
+                }
+
+                return Ok(inquilinos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+
+        // GET: api/Inquilino
+        [HttpGet("Inmueble/{id}")]
+        public async Task<ActionResult<Inmueble>> GetInmueblesPorInquilino(int id)
+        {
+
+            try
+            {
+                var inquilinos = await contexto.Contratos
+                    .Include(contrato => contrato.Inquilino)
+                    .Include(contrato => contrato.Inmueble)
+                    .ThenInclude(inmueble => inmueble.Duenio)
+                    .Where(contrato => contrato.Inquilino.Id == id)
+                    .Select(contrato => contrato.Inmueble)
+                    .FirstOrDefaultAsync();
+
+                if (inquilinos == null)
+                {
+                    return NotFound("No hay ningun inquilino");
+                }
+
+                return Ok(inquilinos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // GET: api/Inquilino/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Inquilino>> Get(int id)
         {
-            var inquilino = await _context.Inquilinos.FindAsync(id);
+            var inquilino = await contexto.Inquilinos.FindAsync(id);
 
             if (inquilino == null)
             {
@@ -52,11 +105,11 @@ namespace WebApplicationPrueba.Api
                 return BadRequest();
             }
 
-            _context.Entry(inquilino).State = EntityState.Modified;
+            contexto.Entry(inquilino).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await contexto.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -79,8 +132,8 @@ namespace WebApplicationPrueba.Api
         [HttpPost]
         public async Task<ActionResult<Inquilino>> Post(Inquilino inquilino)
         {
-            _context.Inquilinos.Add(inquilino);
-            await _context.SaveChangesAsync();
+            contexto.Inquilinos.Add(inquilino);
+            await contexto.SaveChangesAsync();
 
             return CreatedAtAction("GetInquilino", new { id = inquilino.Id }, inquilino);
         }
@@ -89,21 +142,21 @@ namespace WebApplicationPrueba.Api
         [HttpDelete("{id}")]
         public async Task<ActionResult<Inquilino>> Delete(int id)
         {
-            var inquilino = await _context.Inquilinos.FindAsync(id);
+            var inquilino = await contexto.Inquilinos.FindAsync(id);
             if (inquilino == null)
             {
                 return NotFound();
             }
 
-            _context.Inquilinos.Remove(inquilino);
-            await _context.SaveChangesAsync();
+            contexto.Inquilinos.Remove(inquilino);
+            await contexto.SaveChangesAsync();
 
             return inquilino;
         }
 
         private bool InquilinoExists(int id)
         {
-            return _context.Inquilinos.Any(e => e.Id == id);
+            return contexto.Inquilinos.Any(e => e.Id == id);
         }
     }
 }

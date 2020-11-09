@@ -314,5 +314,6 @@ C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\runtimes\w
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.csproj.CoreCompileInputs.cache
 C:\Users\Nahuel\Documents\GitHub\Inmobiliaria\obj\Debug\netcoreapp3.1\WebApplicationPrueba.MvcApplicationPartsAssemblyInfo.cache
